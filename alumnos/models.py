@@ -1,0 +1,53 @@
+# myproject/alumnos/models.py
+
+from django.db import models
+
+class Cliente(models.Model):
+    id_cliente = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    correo = models.CharField(max_length=100)
+    contrasena = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+class Categoria(models.Model):
+    id_categoria = models.AutoField(primary_key=True)
+    nombre_catg = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre_catg
+
+class Producto(models.Model):
+    id_producto = models.AutoField(primary_key=True)
+    nombre_prod = models.CharField(max_length=100)
+    descripcion_prod = models.CharField(max_length=100)
+    precio = models.IntegerField()
+    imagen_url = models.URLField(blank=True)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, db_column='id_categoria')
+
+    def __str__(self):
+        return self.nombre_prod
+
+class Factura(models.Model):
+    id_factura = models.AutoField(primary_key=True)
+    descripcion = models.CharField(max_length=100)
+    total = models.IntegerField()
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, db_column='id_cliente')
+
+    def __str__(self):
+        return f"Factura {self.id_factura}"
+
+class FacturaProducto(models.Model):
+    id_fact_prod = models.AutoField(primary_key=True)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, db_column='id_producto')
+    factura = models.ForeignKey(Factura, on_delete=models.CASCADE, db_column='id_factura')
+
+class Admin(models.Model):
+    id_admin = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    contrasena_encriptada = models.CharField(max_length=100)
+    permiso = models.IntegerField()
+
+    def __str__(self):
+        return self.nombre

@@ -1,0 +1,79 @@
+.btn{
+    color: white;
+}
+.btn:hover{
+    background-color: #F2F2F2;
+    color: rgb(43, 25, 107);
+}
+
+.logo{
+    margin: 0;
+    padding: 0;
+    width: 3%;
+    height: 10%;
+}
+@media only screen  and (min-device-width:200px) and (max-device-width:1000px){
+    .logo{
+        height: 15%;
+        width: 14%;
+    }
+}
+
+a{
+    margin-left: 5px !important;
+}
+body{
+    background-color: #252850;
+}
+a{
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.container-sm{
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 20%;
+}
+
+.form_cont{
+    background-color: white;
+    padding: 30px;
+    border-radius: 2%;
+    padding-top: 10%;
+}
+.formato_titulo{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#titulo1{
+    background-color: white;
+    border-radius: 2%;
+    margin-right: 10%;
+    margin-left: 10%;
+}
+
+#div_titulo{
+    border-radius: 5%;
+}
+
+#logo_carrito{
+    float: right;
+    margin-right: 5%;
+    width: 5%;
+    height: 10%;
+}
+@media only screen  and (min-device-width:200px) and (max-device-width:1000px){
+    #logo_carrito{
+        height: 15%;
+        width: 14%;
+    }
+}
+#imagen_carrito{
+    background-color: white;
+    padding: 4px;
+    border-radius: 8%;
+    display: none;
+}
+#imagen_carrito:hover{
+    background-color: gray;
+}
