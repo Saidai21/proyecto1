@@ -42,28 +42,3 @@ $(document).ready(function(){
     $("#itContrasena").css("border-color","#ced4da");
     $("#mensajeContrasena").fadeOut();
   })
-
-  $(document).ready(function(){
-    $('#enviar').click(function(){
-        var correo = $('#itCorreo').val();
-        var contrasena = $('#itContrasena').val();
-        $.ajax({
-            type: 'POST',
-            url: '/iniciar_sesion/',
-            data: {
-                correo: correo,
-                contrasena: contrasena
-            },
-            success: function(response){
-                if (response.success) {
-                    $('#exampleModal').modal('show');
-                } else {
-                    alert('Error al iniciar sesión: ' + response.error);
-                }
-            },
-            error: function(xhr, textStatus, errorThrown){
-                alert('Error al iniciar sesión: ' + errorThrown);
-            }
-        });
-    });
-});

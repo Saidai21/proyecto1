@@ -25,14 +25,7 @@ def index(request):
     return render(request, 'alumnos/index.html', context)
 
 def iniciar_sesion(request):
-    if request.method == 'POST':
-        correo = request.POST.get('correo')
-        contrasena = request.POST.get('contrasena')
-        usuario = authenticate(request, correo=correo, password=contrasena)
-        if usuario is not None:
-            login(request, usuario)
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False, 'error': 'Credenciales inválidas'})
-    else:
-        return render(request, 'iniciar_sesion.html')
+        context = {}
+        return render(request, 'iniciar_sesion.html', context)
+
+    
