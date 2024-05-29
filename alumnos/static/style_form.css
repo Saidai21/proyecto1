@@ -1,0 +1,52 @@
+#mensajeCorreo{
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    display: none;
+}
+#mensajeCorreo2{
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    display: none;
+}
+#mensajeAsunto{
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    display: none;
+}
+#mensajeApellido{
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    display: none;
+}
+#mensajeContrasena{
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    display: none;
+}
+.container-sm{
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 8%;
+}
+
+.form_cont{
+    background-color: white;
+    padding: 30px;
+    border-radius: 2%;
+}
+
+#mensajeNombre{
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    display: none;
+}
+
+.formato_titulo{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
