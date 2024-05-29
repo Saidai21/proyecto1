@@ -1,0 +1,26 @@
+/* Estilo para botones principales */
+#showAllBikes,
+#boton_1,
+#boton_2,
+#boton_3 {
+    background-color: #FF6F61; /* Rojo anaranjado */
+    border-color: #FF6F61; /* Color del borde */
+    color: white; /* Color del texto */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /* Formato de letra */
+    
+}
+
+#boton_1,
+#boton_2,
+#boton_3 {
+    width: 150px; /* Ancho fijo para los botones */
+    height: 40px; /* Altura fija para los botones */
+}
+
+/* Estilo para botones principales al pasar el mouse */
+#showAllBikes:hover,
+#boton_1:hover,
+#boton_2:hover,
+#boton_3:hover {
+    background-color: #D93B3B; /* Rojo oscuro en el hover */
+}
