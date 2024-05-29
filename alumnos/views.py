@@ -1,9 +1,8 @@
 # myproject/alumnos/views.py
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin
-from django.contrib.auth import login
-from django.http import JsonResponse
+from django.contrib import messages
 
 def index(request):
     clientes = Cliente.objects.all()
@@ -30,24 +29,37 @@ def iniciar_sesion(request):
 
 
 def registrarse(request):
-    if request.method != "POST":
-        return render(request, 'alumnos/registrarse.html')
-    else:
-        correo = request.POST.get('correo')
+    if request.method == 'POST':
         nombre = request.POST.get('nombre')
+        correo = request.POST.get('correo')
         contrasena = request.POST.get('contrasena')
-        
-        # Validar campos
-        if not correo or not nombre or not contrasena:
-            return JsonResponse({'success': False, 'error': 'Todos los campos son obligatorios.'})
-        
-        # Validar si el usuario ya existe
-        if User.objects.filter(email=correo).exists():
-            return JsonResponse({'success': False, 'error': 'El correo ya está registrado.'})
-        
-        # Crear el nuevo usuario
-        usuario = User.objects.create_user(username=correo, email=correo, password=contrasena, first_name=nombre)
-        login(request, usuario)  # Autenticar al usuario después de registrarse
-        
-        return JsonResponse({'success': True})
-        
+
+        # Validaciones adicionales
+        if not nombre or not correo or not contrasena:
+            messages.error(request, 'Por favor complete todos los campos')
+            return render(request, 'alumnos/registrarse.html')
+
+        if Cliente.objects.filter(correo=correo).exists():
+            messages.error(request, 'El correo ya está registrado')
+            return render(request, 'alumnos/registrarse.html')
+
+        # Creación del nuevo usuario
+        usuario = Cliente(nombre=nombre, correo=correo, contrasena=contrasena)
+        usuario.save()
+        messages.success(request, 'Registro exitoso')
+        return redirect('iniciar_sesion')
+
+    return render(request, 'alumnos/registrarse.html')
+
+def catalogo(request):
+    productos_montana = Producto.objects.filter(categoria__nombre='Montaña')
+    productos_bmx = Producto.objects.filter(categoria__nombre='BMX')
+    productos_urbanas = Producto.objects.filter(categoria__nombre='Urbanas')
+
+    context = {
+        'productos_montana': productos_montana,
+        'productos_bmx': productos_bmx,
+        'productos_urbanas': productos_urbanas,
+    }
+
+    return render(request, 'catalogo.html', context)
