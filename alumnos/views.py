@@ -24,8 +24,19 @@ def index(request):
     return render(request, 'alumnos/index.html', context)
 
 def iniciar_sesion(request):
-    context={}
-    return render(request, 'alumnos/iniciar_sesion.html',context )
+    if request.method == 'POST':
+        correo = request.POST['correo']
+        contrasena = request.POST['contrasena']
+        
+        try:
+            cliente = Cliente.objects.get(correo=correo, contrasena=contrasena)
+            request.session['cliente_id'] = cliente.id_cliente
+            messages.success(request, 'Sesión iniciada con éxito')
+            return redirect('index')  # Redirige a la página principal u otra página
+        except Cliente.DoesNotExist:
+            messages.error(request, 'Correo o contraseña incorrectos')
+
+    return render(request, 'alumnos/iniciar_sesion.html')
 
 
 def registrarse(request):
