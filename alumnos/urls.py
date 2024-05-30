@@ -1,7 +1,9 @@
 # myproject/alumnos/urls.py
 
 from django.urls import path
+from django.conf.urls.static import static
 from . import views
+from instituto import settings
 
 urlpatterns = [
     path('index', views.index, name='index'),
@@ -10,4 +12,4 @@ urlpatterns = [
     path('catalogo', views.catalogo, name='catalogo'),
     path('reparaciones', views.reparaciones, name='reparaciones'),
     
-] + static (settings.MEDIA_URL,document_root=settings.MEDIA_URL)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_URL)

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_form.css' %}">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="logo">
+            <img src="{% static 'img/logo_bici.png' %}" alt="" class="img-fluid">
+        </div>  
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="btn" href="{% url 'index' %}">INICIO<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="btn" href="{% url 'reparaciones' %}">REPARACIONES</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="btn" href="{% url 'catalogo' %}">CATALOGO</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if request.session.cliente_id %}
+                    <li class="nav-item active">
+                        <a class="btn" href="#">{{ request.session.cliente_nombre }}</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="btn" href="{% url 'cerrar_sesion' %}">
+                            <img src="{% static 'img/icon_logout.png' %}" alt="Cerrar sesión" class="img-fluid">
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item active">
+                        <a class="btn" href="{% url 'iniciar_sesion' %}">INICIAR SESION</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="btn" href="{% url 'registrarse' %}">REGISTRARSE</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <!-- CONTENIDO -->
+    {% block content %}
+    {% endblock %}
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/form_iniciar.js' %}"></script>
+</body>
+</html>
