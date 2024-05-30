@@ -87,7 +87,7 @@
               {% for producto in productos_bmx %}
               <div class="col-md-4 mb-4">
                 <div class="card">
-                  <img src="{{ producto.imagen_url }}" class="card-img-top img-fluid" alt="..." height="300px">
+                  <img src="{{ producto.imagen.url }}" class="card-img-top img-fluid" alt="..." height="300px">
                   <div class="card-body">
                     <h5 class="card-title">{{ producto.nombre_prod }}</h5>
                     <p class="card-text">${{ producto.precio }}</p>

@@ -10,4 +10,4 @@ urlpatterns = [
     path('catalogo', views.catalogo, name='catalogo'),
     path('reparaciones', views.reparaciones, name='reparaciones'),
     
-]
+] + static (settings.MEDIA_URL,document_root=settings.MEDIA_URL)

@@ -23,7 +23,7 @@ class Producto(models.Model):
     nombre_prod = models.CharField(max_length=100)
     descripcion_prod = models.CharField(max_length=100)
     precio = models.IntegerField()
-    imagen_url = models.URLField(blank=True)
+    imagen= models.ImageField(default='')
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, db_column='id_categoria')
 
     def __str__(self):
@@ -51,3 +51,5 @@ class Admin(models.Model):
 
     def __str__(self):
         return self.nombre
+
+
