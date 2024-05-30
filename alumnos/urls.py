@@ -7,7 +7,7 @@ urlpatterns = [
     path('index', views.index, name='index'),
     path('iniciar_sesion', views.iniciar_sesion, name='iniciar_sesion'),
     path('registrarse', views.registrarse, name='registrarse'),
-    path('catalogo/', views.catalogo, name='catalogo'),
-    path('reparaciones/', views.reparaciones, name='reparaciones'),
+    path('catalogo', views.catalogo, name='catalogo'),
+    path('reparaciones', views.reparaciones, name='reparaciones'),
     
 ]

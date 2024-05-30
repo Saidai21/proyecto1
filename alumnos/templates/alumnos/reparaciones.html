@@ -6,11 +6,13 @@
     <title>Solicitud de Servicio de Reparación</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" href="../assets/style_index.css">
-    <link rel="stylesheet" href="../assets/style_reparaciones.css">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{%static 'css/index.css'%}">
+    <link rel="stylesheet" type="text/css" href="{%static 'css/style_reparaciones.css'%}">
 </head>
 <body>
 
+<!-- NAVBAR -->
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="logo">
@@ -26,10 +28,10 @@
           <a class="btn" href="index">INICIO<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item active">
-          <a class="btn" href="reparaciones.html">REPARACIONES</a>
+          <a class="btn" href="reparaciones">REPARACIONES</a>
         </li>
         <li class="nav-item active">
-          <a class="btn" href="Catalogo.html">CATALOGO</a>
+          <a class="btn" href="catalogo">CATALOGO</a>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
@@ -42,7 +44,6 @@
       </ul>
     </div>
   </nav>
-  <br>
 <!-- REPARACIONES -->
 <div id="logo_carrito">
   <a href="">

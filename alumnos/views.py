@@ -52,14 +52,19 @@ def registrarse(request):
     return render(request, 'alumnos/registrarse.html')
 
 def catalogo(request):
-    productos_montana = Producto.objects.filter(categoria__nombre='Montaña')
-    productos_bmx = Producto.objects.filter(categoria__nombre='BMX')
-    productos_urbanas = Producto.objects.filter(categoria__nombre='Urbanas')
+    productos = Producto.objects.all()
+    productos_montana = productos.filter(categoria__nombre_catg='Montaña')
+    productos_bmx = productos.filter(categoria__nombre_catg='BMX')
+    productos_urbanas = productos.filter(categoria__nombre_catg='Urbanas')
 
     context = {
+        'productos': productos,
         'productos_montana': productos_montana,
         'productos_bmx': productos_bmx,
         'productos_urbanas': productos_urbanas,
     }
+    return render(request, 'alumnos/catalogo.html', context)
 
-    return render(request, 'catalogo.html', context)
+def reparaciones(request):
+    context ={}
+    return render(request,'alumnos/reparaciones.html ', context)
