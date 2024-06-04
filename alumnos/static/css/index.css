@@ -33,15 +33,9 @@ a{
 .container-sm{
     padding-left: 20%;
     padding-right: 20%;
-    padding-top: 20%;
+    padding-top: 8%;
 }
 
-.form_cont{
-    background-color: white;
-    padding: 30px;
-    border-radius: 2%;
-    padding-top: 10%;
-}
 .formato_titulo{
     font-family: Georgia, 'Times New Roman', Times, serif;
 }

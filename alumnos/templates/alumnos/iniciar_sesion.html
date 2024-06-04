@@ -58,7 +58,7 @@
             {% endif %}
             <form method="POST" action="{% url 'iniciar_sesion' %}">
                 {% csrf_token %}
-                <h1 class="text-center formato_titulo">INICIAR SESION</h1>
+                <span class="text-center formato_titulo_form">INICIAR SESION</span>
                 <div class="form-group">
                     <label for="correo">Correo</label>
                     <input type="text" class="form-control" id="correo" name="correo" placeholder="name@example.com" required>
