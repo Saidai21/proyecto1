@@ -17,4 +17,8 @@
           border: 1px solid #ccc;
           border-radius: 4px;
           box-sizing: border-box;
-      }     
+      }
+      .container-sm{
+        background-color: white;
+        border-radius: 5%;
+      } 
