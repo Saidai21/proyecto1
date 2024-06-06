@@ -31,22 +31,27 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="btn" href="{% url 'iniciar_sesion' %}">INICIAR SESION</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="btn" href="{% url 'registrarse' %}">REGISTRARSE</a>
-                </li>
+                {% if request.session.cliente_id %}
+                    <li class="nav-item active">
+                        <a class="btn" href="{% url 'perfil' %}">PERFIL</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="btn" href="{% url 'cerrar_sesion' %}">CERRAR SESIÓN</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item active">
+                        <a class="btn" href="{% url 'iniciar_sesion' %}">INICIAR SESION</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="btn" href="{% url 'registrarse' %}">REGISTRARSE</a>
+                    </li>
+                {% endif %}
             </ul>
+            
         </div>
     </nav>
     <br>
     <!-- FORMULARIO -->
-    <div id="logo_carrito">
-        <a href="">
-            <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="" class="img-fluid" id="imagen_carrito">
-        </a>
-    </div>
     <div class="container-sm">
         <div class="form_cont">
             {% if messages %}

@@ -1,8 +1,8 @@
-# myproject/alumnos/views.py
-
-from django.shortcuts import render,redirect
-from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin
+from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.utils.dateparse import parse_datetime
+from django.http import HttpResponse
+from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado
 
 def index(request):
     clientes = Cliente.objects.all()
@@ -12,16 +12,23 @@ def index(request):
     facturas_productos = FacturaProducto.objects.all()
     admins = Admin.objects.all()
 
+    nombre_usuario = None
+    if 'cliente_id' in request.session:
+        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+        nombre_usuario = cliente.nombre
+
     context = {
         'clientes': clientes,
         'categorias': categorias,
         'productos': productos,
         'facturas': facturas,
         'facturas_productos': facturas_productos,
-        'admins': admins
+        'admins': admins,
+        'nombre_usuario': nombre_usuario
     }
     
     return render(request, 'alumnos/index.html', context)
+
 
 def iniciar_sesion(request):
     if request.method == 'POST':
@@ -30,9 +37,9 @@ def iniciar_sesion(request):
         
         try:
             cliente = Cliente.objects.get(correo=correo, contrasena=contrasena)
-            request.session['cliente_id'] = cliente.id_cliente
+            request.session['cliente_id'] = cliente.id_cliente  # Guardar el id_cliente en la sesión
             messages.success(request, 'Sesión iniciada con éxito')
-            return redirect('index')  # Redirige a la página principal u otra página
+            return redirect('index')
         except Cliente.DoesNotExist:
             messages.error(request, 'Correo o contraseña incorrectos')
 
@@ -77,5 +84,36 @@ def catalogo(request):
     return render(request, 'alumnos/catalogo.html', context)
 
 def reparaciones(request):
-    context ={}
-    return render(request,'alumnos/reparaciones.html ', context)
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        rut = request.POST.get('RutCliente')
+        servicio = request.POST.get('inputState')
+        hora_entrega_str = request.POST.get('fecha')
+        hora_entrega = parse_datetime(hora_entrega_str)
+        descripcion = request.POST.get('problema')
+        
+        # Estado por defecto
+        estado, created = Estado.objects.get_or_create(estado="Pendiente")
+        
+        # Obtener el cliente desde la sesión
+        cliente_id = request.session.get('cliente_id')
+        if not cliente_id:
+            return HttpResponse("No has iniciado sesión.", status=403)
+        
+        cliente = Cliente.objects.get(id_cliente=cliente_id)
+        
+        # Crear nueva reparación
+        reparacion = Reparacion(
+            rut=rut,
+            servicio=servicio,
+            hora_entrega=hora_entrega,
+            descripcion=descripcion,
+            estado=estado,
+            usuario=cliente
+        )
+        reparacion.save()
+        
+        return HttpResponse("Solicitud de reparación enviada con éxito.")
+    
+    return render(request, 'alumnos/reparaciones.html')
+
