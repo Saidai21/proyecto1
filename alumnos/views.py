@@ -152,8 +152,8 @@ def reparaciones(request):
     return render(request, 'alumnos/reparaciones.html',context)
 
 def mis_reparaciones(request):
-    reparaciones = Reparacion.objects.all()
-    return render(request, 'tuapp/mis_reparaciones.html', {'reparaciones': reparaciones})
+    context = {}
+    return render(request, 'alumnos/mis_reparaciones.html', context)
 
 def cerrar_sesion(request):
     logout(request)
