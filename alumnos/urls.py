@@ -12,5 +12,6 @@ urlpatterns = [
     path('catalogo', views.catalogo, name='catalogo'),
     path('reparaciones', views.reparaciones, name='reparaciones'),
     path('reparaciones/', views.mis_reparaciones, name='lista_reparaciones'),
+    path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_URL)

@@ -1,94 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style_form.css' %}">
-</head>
-<body>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_form.css' %}" />
+  </head>
+  <body>
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="logo">
-          <img src="{% static 'img/logo_bici.png' %}" alt="" class="img-fluid">
-        </div>  
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item active">
-                <a class="btn" href="{% url 'index' %}">INICIO<span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item active">
-                <a class="btn" href="{% url 'reparaciones' %}">REPARACIONES</a>
-              </li>
-              <li class="nav-item active">
-                <a class="btn" href="{% url 'catalogo' %}">CATALOGO</a>
-              </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-              {% if nombre_usuario %}
-                  <li class="nav-item active">
-                      <span class="navbar-text"> {{ nombre_usuario }}</span>
-                  </li>
-                  <li class="nav-item active">
-                      <a class="btn" href="{% url 'cerrar_sesion' %}">CERRAR SESIÓN</a>
-                  </li>
-              {% else %}
-                  <li class="nav-item active">
-                      <a class="btn" href="{% url 'iniciar_sesion' %}">INICIAR SESION</a>
-                  </li>
-                  <li class="nav-item active">
-                      <a class="btn" href="{% url 'registrarse' %}">REGISTRARSE</a>
-                  </li>
-              {% endif %}
-          </ul>
-          </div>
-        </nav>
-        <br>
+      <div class="logo">
+        <img src="{% static 'img/logo_bici.png' %}" alt="" class="img-fluid" />
+      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="btn" href="{% url 'index' %}">INICIO<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn" href="{% url 'reparaciones' %}">REPARACIONES</a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn" href="{% url 'catalogo' %}">CATALOGO</a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn" href="{% url 'mis_reparaciones' %}">MiS REPARACIONES</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          {% if nombre_usuario %}
+            <li class="nav-item active">
+              <a class="btn disabled" href="">{{ nombre_usuario }}</a>
+            </li>
+            <li class="nav-item active">
+              <a class="btn" href="{% url 'iniciar_sesion' %}">INICIAR SESION</a>
+            </li>
+          {% else %}
+            <li class="nav-item active">
+              <a class="btn" href="{% url 'iniciar_sesion' %}">INICIAR SESION</a>
+            </li>
+            <li class="nav-item active">
+              <a class="btn" href="{% url 'registrarse' %}">REGISTRARSE</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <br />
 
     <!-- TABLA DE REPARACIONES -->
     <div class="container">
-        <h2 class="text-center text-white">Lista de Reparaciones</h2>
-        <table class="table table-striped table-dark">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">RUT</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Descripción</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for reparacion in reparaciones %}
-                <tr>
-                    <th scope="row">{{ reparacion.id_reparacion }}</th>
-                    <td>{{ reparacion.rut }}</td>
-                    <td>
-                        <div class="progress">
-                            <div class="progress-bar bg-{% if reparacion.estado.id_estado == 1 %}success{% elif reparacion.estado.id_estado == 2 %}info{% elif reparacion.estado.id_estado == 3 %}warning{% elif reparacion.estado.id_estado == 4 %}primary{% else %}danger{% endif %}" 
-                                 role="progressbar" style="width: {% if reparacion.estado.id_estado == 1 %}20{% elif reparacion.estado.id_estado == 2 %}40{% elif reparacion.estado.id_estado == 3 %}60{% elif reparacion.estado.id_estado == 4 %}80{% else %}100{% endif %}%;"
-                                 aria-valuenow="{% if reparacion.estado.id_estado == 1 %}20{% elif reparacion.estado.id_estado == 2 %}40{% elif reparacion.estado.id_estado == 3 %}60{% elif reparacion.estado.id_estado == 4 %}80{% else %}100{% endif %}"
-                                 aria-valuemin="0" aria-valuemax="100">
-                                 {{ reparacion.estado.estado }}
-                            </div>
-                        </div>
-                    </td>
-                    <td>{{ reparacion.descripcion }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+      <h2 class="text-center text-white">Lista de Reparaciones</h2>
+      <table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">RUT</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for reparacion in reparaciones %}
+            <tr>
+              <th scope="row">{{ reparacion.id_reparacion }}</th>
+              <td>{{ reparacion.rut }}</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar bg-{% if reparacion.estado.id_estado == 1 %}
+                      success
+                    {% elif reparacion.estado.id_estado == 2 %}
+                      info
+                    {% elif reparacion.estado.id_estado == 3 %}
+                      warning
+                    {% elif reparacion.estado.id_estado == 4 %}
+                      primary
+                    {% else %}
+                      danger
+                    {% endif %}"
+                    role="progressbar"
+                    style="width: {% if reparacion.estado.id_estado == 1 %}
+                      20
+                    {% elif reparacion.estado.id_estado == 2 %}
+                      40
+                    {% elif reparacion.estado.id_estado == 3 %}
+                      60
+                    {% elif reparacion.estado.id_estado == 4 %}
+                      80
+                    {% else %}
+                      100
+                    {% endif %}%;"
+                    aria-valuenow="{% if reparacion.estado.id_estado == 1 %}
+                      20
+                    {% elif reparacion.estado.id_estado == 2 %}
+                      40
+                    {% elif reparacion.estado.id_estado == 3 %}
+                      60
+                    {% elif reparacion.estado.id_estado == 4 %}
+                      80
+                    {% else %}
+                      100
+                    {% endif %}"
+                    aria-valuemin="0"
+                    aria-valuemax="100">{{ reparacion.estado.estado }}</div>
+                </div>
+              </td>
+              <td>{{ reparacion.descripcion }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-    
 
     <!-- SCRIPTS -->
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
     <script src="../assets/form_iniciar.js"></script>
-</body>
+  </body>
 </html>

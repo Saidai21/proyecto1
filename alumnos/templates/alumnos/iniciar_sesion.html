@@ -33,10 +33,10 @@
             <ul class="navbar-nav ml-auto">
                 {% if request.session.cliente_id %}
                     <li class="nav-item active">
-                        <a class="btn" href="{% url 'perfil' %}">PERFIL</a>
+                        <a class="btn" href="">{{ nombre_usuario }}</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="btn" href="{% url 'cerrar_sesion' %}">CERRAR SESIÓN</a>
+                        <a class="btn" href="{% url 'cerrar_sesion'%}">CERRAR SESIÓN</a>
                     </li>
                 {% else %}
                     <li class="nav-item active">
@@ -44,7 +44,7 @@
                     </li>
                     <li class="nav-item active">
                         <a class="btn" href="{% url 'registrarse' %}">REGISTRARSE</a>
-                    </li>
+                    </li>   
                 {% endif %}
             </ul>
             
