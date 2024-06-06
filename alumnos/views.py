@@ -117,3 +117,7 @@ def reparaciones(request):
     
     return render(request, 'alumnos/reparaciones.html')
 
+def mis_reparaciones(request):
+    reparaciones = Reparacion.objects.all()
+    return render(request, 'tuapp/mis_reparaciones.html', {'reparaciones': reparaciones})
+
