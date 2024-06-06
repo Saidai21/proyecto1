@@ -98,7 +98,7 @@ def reparaciones(request):
         # Obtener el cliente desde la sesión
         cliente_id = request.session.get('cliente_id')
         if not cliente_id:
-            return HttpResponse("No has iniciado sesión.", status=403)
+            return render(request,'alumnos/iniciar_sesion')
         
         cliente = Cliente.objects.get(id_cliente=cliente_id)
         
@@ -113,7 +113,7 @@ def reparaciones(request):
         )
         reparacion.save()
         
-        return HttpResponse("Solicitud de reparación enviada con éxito.")
+        return render(request, 'alumnos/index.html')
     
     return render(request, 'alumnos/reparaciones.html')
 
