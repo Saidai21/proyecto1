@@ -157,10 +157,26 @@ def reparaciones(request):
     return render(request, 'alumnos/reparaciones.html',context)
 
 def mis_reparaciones(request):
-    context = {}
+    clientes = Cliente.objects.all()
+    nombre_usuario = None
+    if 'cliente_id' in request.session:
+        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+        nombre_usuario = cliente.nombre
+    context = {'clientes': clientes,
+        'nombre_usuario': nombre_usuario}
     return render(request, 'alumnos/mis_reparaciones.html', context)
 
 def cerrar_sesion(request):
     logout(request)
     return redirect('index')
+
+def perfil(request):
+    clientes = Cliente.objects.all()
+    nombre_usuario = None
+    if 'cliente_id' in request.session:
+        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+        nombre_usuario = cliente.nombre
+    context = {'clientes': clientes,
+        'nombre_usuario': nombre_usuario}
+    return render(request, 'alumnos/perfil.html', context)
 

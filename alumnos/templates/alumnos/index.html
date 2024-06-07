@@ -37,7 +37,7 @@
         <ul class="navbar-nav ml-auto">
           {% if nombre_usuario %}
             <li class="nav-item active">
-              <a class="btn disabled" href="">{{ nombre_usuario }}</a>
+              <a class="btn" href="{% url 'perfil' %}">{{ nombre_usuario }}</a>
             </li>
             <li class="nav-item active">
               <a class="btn" href="{% url 'cerrar_sesion' %}">CERRAR SESIÓN</a>
