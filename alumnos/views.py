@@ -69,23 +69,28 @@ def registrarse(request):
         # Validaciones adicionales
         if not nombre or not correo or not contrasena:
             messages.error(request, 'Por favor complete todos los campos')
-            return render(request, 'alumnos/registrarse.html')
+            return render(request, 'alumnos/registrarse.html', context={
+                'clientes': clientes,
+                'nombre_usuario': nombre_usuario
+            })
 
         if Cliente.objects.filter(correo=correo).exists():
             messages.error(request, 'El correo ya está registrado')
-            return render(request, 'alumnos/registrarse.html')
+            return render(request, 'alumnos/registrarse.html', context={
+                'clientes': clientes,
+                'nombre_usuario': nombre_usuario
+            })
 
-        # Creación del nuevo usuario
-        usuario = Cliente(nombre=nombre, correo=correo, contrasena=contrasena)
+        # Creación del nuevo usuario con la contraseña cifrada
+        usuario = Cliente(nombre=nombre, correo=correo, contrasena=(contrasena))
         usuario.save()
         messages.success(request, 'Registro exitoso')
-        return redirect('iniciar_sesion')
+        return redirect('alumnos/iniciar_sesion.html')  # Usa el nombre de la URL configurada en tu archivo de URLs
     context = {
         'clientes': clientes,
         'nombre_usuario': nombre_usuario
     }
-    return render(request, 'alumnos/registrarse.html',context)
-
+    return render(request, 'alumnos/registrarse.html', context)
 
 def catalogo(request):
     productos = Producto.objects.all()
@@ -128,7 +133,7 @@ def reparaciones(request):
         # Obtener el cliente desde la sesión
         cliente_id = request.session.get('cliente_id')
         if not cliente_id:
-            return render(request,'alumnos/iniciar_sesion')
+            return render(request,'alumnos/iniciar_sesion.html')
         
         
         cliente = Cliente.objects.get(id_cliente=cliente_id)

@@ -27,9 +27,11 @@
           <li class="nav-item active">
             <a class="btn" href="{% url 'catalogo' %}">CATALOGO</a>
           </li>
+          {% if request.session.cliente_id %}
           <li class="nav-item active">
             <a class="btn" href="{% url 'mis_reparaciones' %}">MiS REPARACIONES</a>
           </li>
+          {%endif%}
         </ul>
        
         <ul class="navbar-nav ml-auto">
