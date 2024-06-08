@@ -9,6 +9,19 @@
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /* Formato de letra */
     
 }
+@media only screen and (min-device-width: 100px) and (max-device-width: 500px) {
+    #showAllBikes,
+#boton_1,
+#boton_2,
+#boton_3 {
+    display: flex;
+    background-color: #FF6F61; /* Rojo anaranjado */
+    border-color: #FF6F61; /* Color del borde */
+    color: white; /* Color del texto */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /* Formato de letra */
+    
+}
+}
 
 #boton_1,
 #boton_2,
