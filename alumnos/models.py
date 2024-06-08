@@ -1,7 +1,4 @@
-# myproject/alumnos/models.py
-
 from django.db import models
-
 
 class Cliente(models.Model):
     id_cliente = models.AutoField(primary_key=True)
@@ -24,7 +21,7 @@ class Producto(models.Model):
     nombre_prod = models.CharField(max_length=100)
     descripcion_prod = models.CharField(max_length=100)
     precio = models.IntegerField()
-    imagen= models.ImageField(default='')
+    imagen = models.ImageField(default='')
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, db_column='id_categoria')
 
     def __str__(self):
@@ -53,3 +50,15 @@ class Admin(models.Model):
     def __str__(self):
         return self.nombre
     
+class Estado(models.Model):
+    id_estado = models.AutoField(primary_key=True)
+    estado = models.CharField(max_length=100)
+        
+class Reparacion(models.Model):
+    id_reparacion = models.AutoField(primary_key=True)
+    rut = models.CharField(max_length=100)
+    servicio = models.CharField(max_length=100)
+    hora_entrega = models.TimeField()
+    descripcion = models.CharField(max_length=255)
+    estado = models.ForeignKey(Estado, on_delete=models.CASCADE, db_column='id_estado')
+    usuario = models.ForeignKey(Cliente, on_delete=models.CASCADE, db_column='id_cliente')
