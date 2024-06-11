@@ -28,15 +28,10 @@
     margin-top: 5px;
     display: none;
 }
-.container-sm{
-    padding-left: 20%;
-    padding-right: 20%;
-    padding-top: 8%;
-}
 
 .form_cont{
     background-color: white;
-    padding: 30px;
+    padding: 25px;
     border-radius: 2%;
 }
 
@@ -47,6 +42,18 @@
     display: none;
 }
 
-.formato_titulo{
+.formato_titulo_form{
     font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: x-large;
+}
+
+@media only screen and (min-device-width: 250px) and (max-device-width: 1000px){
+    .formato_titulo_form{
+        font-size: large;
+    }
+}
+@media only screen and (min-device-width: 100px) and (max-device-width: 280px){
+    .formato_titulo_form{
+        font-size: small;
+    }
 }

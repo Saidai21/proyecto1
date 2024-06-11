@@ -1,20 +1,53 @@
-      
-      body {
-          font-family: Arial, sans-serif;
-      }
-      form {
-          max-width: 400px;
-          margin: 0 auto;
-      }
-      label {
-          display: block;
-          margin-bottom: 5px;
-      }
-      input, textarea {
-          width: 100%;
-          padding: 8px;
-          margin-bottom: 10px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-sizing: border-box;
-      }     
+
+body {
+    font-family: Arial, sans-serif;
+}
+form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.container-sm{
+    background-color: white;
+    border-radius: 5%;
+    padding: 20px;
+} 
+
+.mensajError{
+    color: red;
+}
+
+#mensajeRut{
+    display: none;
+}
+
+#mensajeRut2{
+    display:none
+}
+
+#mensajeCombo{
+    display: none;
+}
+
+#mensajeFecha{
+    display: none;
+}
+
+#mensajeProb{
+    display: none;
+}
+
+#mensajeFecha2{
+    display: none;
+}

@@ -29,28 +29,38 @@
                 <li class="nav-item active">
                     <a class="btn" href="{% url 'catalogo' %}">CATALOGO</a>
                 </li>
+                {% if request.session.cliente_id %}
+          <li class="nav-item active">
+            <a class="btn" href="{% url 'mis_reparaciones' %}">MiS REPARACIONES</a>
+          </li>
+          {%endif%}
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="btn" href="{% url 'iniciar_sesion' %}">INICIAR SESION</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="btn" href="{% url 'registrarse' %}">REGISTRARSE</a>
-                </li>
+                {% if request.session.cliente_id %}
+                    <li class="nav-item active">
+                        <a class="btn" href="">{{ nombre_usuario }}</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="btn" href="{% url 'cerrar_sesion'%}">CERRAR SESIÓN</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item active">
+                        <a class="btn" href="{% url 'iniciar_sesion' %}">INICIAR SESION</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="btn" href="{% url 'registrarse' %}">REGISTRARSE</a>
+                    </li>   
+                {% endif %}
             </ul>
+            
         </div>
     </nav>
     <br>
     <!-- FORMULARIO -->
-    <div id="logo_carrito">
-        <a href="">
-            <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="" class="img-fluid" id="imagen_carrito">
-        </a>
-    </div>
     <div class="container-sm">
         <div class="form_cont">
-            {% if messages %}
-            <div class="alert alert-danger">
+            {% if messages %}   
+            <div class="alert alert-success">
                 {% for message in messages %}
                 <p>{{ message }}</p>
                 {% endfor %}
@@ -58,7 +68,7 @@
             {% endif %}
             <form method="POST" action="{% url 'iniciar_sesion' %}">
                 {% csrf_token %}
-                <h1 class="text-center formato_titulo">INICIAR SESION</h1>
+                <span class="text-center formato_titulo_form">INICIAR SESION</span>
                 <div class="form-group">
                     <label for="correo">Correo</label>
                     <input type="text" class="form-control" id="correo" name="correo" placeholder="name@example.com" required>
@@ -67,6 +77,10 @@
                     <label for="contrasena">Contraseña</label>
                     <input type="password" class="form-control" id="contrasena" name="contrasena" required>
                 </div>
+                <div><label for="formGroupExampleInput">¿No tienes cuenta?</label>
+                    <a class="label" href="{% url 'registrarse' %}" style="color: blue;">registrate</a>
+                </div>
+                
                 <button type="submit" class="btn btn-primary">ENVIAR</button>
             </form>
         </div>
