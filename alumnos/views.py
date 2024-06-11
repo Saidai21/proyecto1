@@ -122,7 +122,7 @@ def reparaciones(request):
     if request.method == 'POST':
         # Obtener datos del formulario
         rut = request.POST.get('RutCliente')
-        servicio = request.POST.get('inputState')
+        servicio = request.POST.get('Combobox')
         hora_entrega_str = request.POST.get('fecha')
         hora_entrega = parse_datetime(hora_entrega_str)
         descripcion = request.POST.get('problema')
@@ -147,14 +147,15 @@ def reparaciones(request):
             estado=estado,
             usuario=cliente
         )
-        reparacion.save()
         
-        return render(request, 'alumnos/index.html')
+        reparacion.save()
+        return redirect('index')
     context = {
         'clientes': clientes,
         'nombre_usuario': nombre_usuario
     }
     return render(request, 'alumnos/reparaciones.html',context)
+
 
 def mis_reparaciones(request):
     clientes = Cliente.objects.all()

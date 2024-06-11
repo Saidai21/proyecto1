@@ -40,20 +40,22 @@ class FacturaProducto(models.Model):
     id_fact_prod = models.AutoField(primary_key=True)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE, db_column='id_producto')
     factura = models.ForeignKey(Factura, on_delete=models.CASCADE, db_column='id_factura')
+    def __str__(self) -> str:
+        return self.producto
 
 class Admin(models.Model):
     id_admin = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     contrasena_encriptada = models.CharField(max_length=100)
     permiso = models.IntegerField()
-
     def __str__(self):
         return self.nombre
     
 class Estado(models.Model):
     id_estado = models.AutoField(primary_key=True)
     estado = models.CharField(max_length=100)
-        
+    def __str__(self) -> str:
+        return self.estado
 class Reparacion(models.Model):
     id_reparacion = models.AutoField(primary_key=True)
     rut = models.CharField(max_length=100)
@@ -62,3 +64,5 @@ class Reparacion(models.Model):
     descripcion = models.CharField(max_length=255)
     estado = models.ForeignKey(Estado, on_delete=models.CASCADE, db_column='id_estado')
     usuario = models.ForeignKey(Cliente, on_delete=models.CASCADE, db_column='id_cliente')
+    def __str__(self) -> str:
+        return (self.rut)

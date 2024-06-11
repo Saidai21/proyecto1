@@ -32,33 +32,51 @@
 
 
 // VALIDAR RUT
-function validarRUT(rut) {
-    // Elimina puntos y guiones
-    rut = rut.replace(/\./g, '').replace('-', '');
-    
-    // Verifica que tenga el formato correcto
-    if (!/^[0-9]+[kK0-9]$/.test(rut)) {
+function validarRut(rut) {
+    // Eliminar puntos y convertir a mayúsculas
+    rut = rut.replace(/\./g, '').toUpperCase();
+
+    // Verificar que el RUT contiene un guion
+    if (!rut.includes('-')) {
         return false;
     }
 
-    // Separa número y dígito verificador
-    var cuerpo = rut.slice(0, -1);
-    var dv = rut.slice(-1).toUpperCase();
+    // Separar el número base del dígito verificador
+    let partes = rut.split('-');
+    let numeroBase = partes[0];
+    let digitoVerificador = partes[1];
 
-    // Calcula el dígito verificador esperado
-    var suma = 0;
-    var multiplo = 2;
-
-    for (var i = cuerpo.length - 1; i >= 0; i--) {
-        suma += multiplo * cuerpo.charAt(i);
-        multiplo = multiplo < 7 ? multiplo + 1 : 2;
+    // Validar que el formato sea correcto
+    if (!numeroBase || !digitoVerificador || isNaN(numeroBase) || !/^(\d|K)$/.test(digitoVerificador)) {
+        return false;
     }
 
-    var dvEsperado = 11 - (suma % 11);
-    dvEsperado = dvEsperado == 11 ? '0' : dvEsperado == 10 ? 'K' : dvEsperado.toString();
+    // Invertir el número base
+    let numeroInvertido = numeroBase.split('').reverse().join('');
 
-    // Compara el dígito verificador ingresado con el esperado
-    return dv === dvEsperado;
+    // Multiplicar cada dígito por la secuencia 2, 3, 4, 5, 6, 7
+    let suma = 0;
+    let multiplicador = 2;
+    for (let i = 0; i < numeroInvertido.length; i++) {
+        suma += parseInt(numeroInvertido[i]) * multiplicador;
+        multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+    }
+
+    // Calcular el módulo 11
+    let resto = suma % 11;
+    let digitoCalculado = 11 - resto;
+
+    // Convertir el dígito calculado
+    if (digitoCalculado === 11) {
+        digitoCalculado = '0';
+    } else if (digitoCalculado === 10) {
+        digitoCalculado = 'K';
+    } else {
+        digitoCalculado = digitoCalculado.toString();
+    }
+
+    // Comparar el dígito calculado con el dígito verificador
+    return digitoCalculado === digitoVerificador;
 }
 
 $(document).ready(function(){
@@ -67,16 +85,20 @@ $(document).ready(function(){
         var servicio = $("#Combobox").val();
         var fecha = $("#fecha").val();
         var problema= $("#problema").val();
+        var fechaValue = new Date(fecha);
+        var now=new Date();
         if (rut==""){
             $("#RutCliente").css("border-color","red")
             $("#mensajeRut2").fadeIn()
             event.preventDefault();
         }else{
-            if (validarRUT(rut)) {
+            if (validarRut(rut)) {
+                console.log("rut valido")
                 $("#mensajeRut2").fadeOut()
                 $("#mensajeRut").fadeOut()
                 $("#RutCliente").css("border-color", "#ced4da")
             } else {
+                console.log("rut invalido")
                 $("#mensajeRut2").fadeOut()
                 $("#RutCliente").css("border-color","red")
                 $("#mensajeRut").fadeIn()
@@ -97,8 +119,17 @@ $(document).ready(function(){
             $("#mensajeFecha").fadeIn()
             event.preventDefault();
         }else{
-            $("#fecha").css("border-color","#ced4da")
-            $("#mensajeFecha").fadeOut()
+            console.log("ola")
+            if(fechaValue<now){
+                $("#fecha").css("border-color","red")
+                $("#mensajeFecha2").fadeIn()
+                event.preventDefault();
+            }else{
+                $("#fecha").css("border-color","#ced4da")
+                $("#mensajeFecha").fadeOut()
+                $("#mensajeFecha2").fadeOut()
+            }
+            
         }
         if(problema==""){
             $("#problema").css("border-color","red")

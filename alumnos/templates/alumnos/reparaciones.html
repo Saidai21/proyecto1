@@ -80,28 +80,31 @@
         </div>
         <div class="form-row">
           <div class="form-group col-md-12">
-            <label for="inputState">Tipo De Servicio</label>
-            <select id="Combobox" class="form-control" >
-              <option value="" disabled selected>Selecciona un servicio</option>
-              <option value="Mantenciones Generales">Mantenciones Generales</option>
-              <option value="Cambio de rueda">Cambio de rueda</option>
-              <option value="Lubricaciones">Lubricaciones</option>
-              <option value="Cadena">Cadena</option>
-              <option value="Amortiguadores">Amortiguadores</option>
-              <option value="Asiento">Asiento</option>
-              <option value="Pintura">Pintura</option>
-            </select>
-            <div class="text-center" id="mensajeCombo">
-              <span class="mensajError">Eliga un tipo de servicio</span>
-            </div>
+              <label for="Combobox">Tipo De Servicio</label>
+              <select id="Combobox" class="form-control" name="Combobox">
+                  <option value="" disabled selected>Selecciona un servicio</option>
+                  <option value="Mantenciones Generales">Mantenciones Generales</option>
+                  <option value="Cambio de rueda">Cambio de rueda</option>
+                  <option value="Lubricaciones">Lubricaciones</option>
+                  <option value="Cadena">Cadena</option>
+                  <option value="Amortiguadores">Amortiguadores</option>
+                  <option value="Asiento">Asiento</option>
+                  <option value="Pintura">Pintura</option>
+              </select>
+              <div class="text-center" id="mensajeCombo">
+                  <span class="mensajError">Eliga un tipo de servicio</span>
+              </div>
           </div>
-        </div>
+      </div>
         <div class="form-row">
           <div class="form-group col-md-12">
             <label for="fecha">Fecha y Hora:</label>
             <input type="datetime-local" id="fecha" name="fecha"  />
             <div class="text-center" id="mensajeFecha">
               <span class="mensajError">Ingrese una fecha</span>
+            </div>
+            <div class="text-center" id="mensajeFecha2" style="display:none">
+              <span class="mensajError">Fecha Invalida</span>
             </div>
           </div>
         </div>
