@@ -1,0 +1,20 @@
+.mensajError{
+    color: red;
+}
+#mensajeNombre{
+    display: none;
+}
+
+#mensajePeriodo{
+    display: none;
+}
+
+#mensajeForma{
+    display: none;
+}
+
+#mensajeDeposito{
+    display: none;
+}
+
+
