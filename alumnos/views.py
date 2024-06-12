@@ -181,3 +181,12 @@ def perfil(request):
         'nombre_usuario': nombre_usuario}
     return render(request, 'alumnos/perfil.html', context)
 
+def arrendar(request):
+    clientes = Cliente.objects.all()
+    nombre_usuario = None
+    if 'cliente_id' in request.session:
+        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+        nombre_usuario = cliente.nombre
+    context = {'clientes': clientes,
+        'nombre_usuario': nombre_usuario}
+    return render(request,'alumnos/arrendar.html',context)

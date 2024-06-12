@@ -13,22 +13,33 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="logo">
-        {% load static %}
-        <img src="{% static 'img/logo_bici.png' %}" alt="" class="img-fluid">
-      </div>  
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
+        <img src="{% static 'img/logo_bici.png' %}" alt="" class="img-fluid" />
+      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="btn" href="{% url 'index' %}">INICIO<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn" href="{% url 'reparaciones' %}">REPARACIONES</a>
+          </li>
+          <li class="nav-item active">
+            <a class="btn" href="{% url 'catalogo' %}">CATALOGO</a>
+          </li>
+          {% if request.session.cliente_id %}
+          <li class="nav-item active">
+            <a class="btn" href="{% url 'mis_reparaciones' %}">MiS REPARACIONES</a>
+          </li>
+          {%endif%}
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          {% if nombre_usuario %}
             <li class="nav-item active">
-              <a class="btn" href="index">INICIO<span class="sr-only">(current)</span></a>
+              <a class="btn disabled" href="">{{ nombre_usuario }}</a>
             </li>
             <li class="nav-item active">
-              <a class="btn" href="reparaciones">REPARACIONES</a>
-            </li>
-            <li class="nav-item active">
-              <a class="btn" href="{% url 'cerrar_sesion' %}">CERRAR SESIÓN</a>
+              <a class="btn" href="{% url 'iniciar_sesion' %}">INICIAR SESION</a>
             </li>
           {% else %}
             <li class="nav-item active">
@@ -37,9 +48,10 @@
             <li class="nav-item active">
               <a class="btn" href="{% url 'registrarse' %}">REGISTRARSE</a>
             </li>
-          </ul>
-        </div>
-      </nav>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
       <br>
       <!-- CAROUSEL -->
       <div id="logo_carrito">
