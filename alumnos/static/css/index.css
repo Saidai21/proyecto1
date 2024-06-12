@@ -71,3 +71,9 @@ a{
 #imagen_carrito:hover{
     background-color: gray;
 }
+
+.container-arrendar{
+    background-color: white;
+    border-radius: 5%;
+    padding: 20px;
+}

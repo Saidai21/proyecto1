@@ -181,7 +181,7 @@ def perfil(request):
         'nombre_usuario': nombre_usuario}
     return render(request, 'alumnos/perfil.html', context)
 
-def arrendar(request):
+def arrendar(request,pk):
     clientes = Cliente.objects.all()
     nombre_usuario = None
     if 'cliente_id' in request.session:
@@ -189,4 +189,13 @@ def arrendar(request):
         nombre_usuario = cliente.nombre
     context = {'clientes': clientes,
         'nombre_usuario': nombre_usuario}
-    return render(request,'alumnos/arrendar.html',context)
+    cliente_id = request.session.get('cliente_id')
+    if not cliente_id:
+            return render(request,'alumnos/iniciar_sesion.html')
+    else:
+        productos=Producto.objects.get(id_producto=pk)
+        print(type(productos.descripcion_prod))
+        context = {'clientes': clientes,
+        'nombre_usuario': nombre_usuario,
+        "productos":productos}
+    return render(request, 'alumnos/arrendar.html', context)

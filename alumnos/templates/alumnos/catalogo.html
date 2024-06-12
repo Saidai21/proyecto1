@@ -42,7 +42,7 @@
               <a class="btn disabled" href="">{{ nombre_usuario }}</a>
             </li>
             <li class="nav-item active">
-              <a class="btn" href="{% url 'iniciar_sesion' %}">INICIAR SESION</a>
+              <a class="btn" href="{% url 'iniciar_sesion' %}">CERRAR SESION</a>
             </li>
           {% else %}
             <li class="nav-item active">
@@ -80,9 +80,11 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
                         <p class="card-text">${{ producto.precio }}</p>
-                        <button class="btn btn-primary">
-                          <a href="{% url 'arrendar' %}"></a>
-                        </button>
+                        <a href="{% url 'arrendar' pk=producto.id_producto%}">
+                          <button class="btn btn-primary">
+                            Arrendar
+                          </button>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -103,6 +105,11 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
                         <p class="card-text">${{ producto.precio }}</p>
+                        <a href="{% url 'arrendar' pk=producto.id_producto%}">
+                          <button class="btn btn-primary">
+                            Arrendar
+                          </button>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -123,6 +130,11 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
                         <p class="card-text">${{ producto.precio }}</p>
+                        <a href="{% url 'arrendar' pk=producto.id_producto%}">
+                          <button class="btn btn-primary">
+                            Arrendar
+                          </button>
+                        </a>
                       </div>
                     </div>
                   </div>

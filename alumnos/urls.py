@@ -14,6 +14,6 @@ urlpatterns = [
     path('mis_reparaciones', views.mis_reparaciones, name='mis_reparaciones'),
     path('cerrar_sesion', views.cerrar_sesion, name='cerrar_sesion'),
     path('perfil', views.perfil, name='perfil'),
-    path('arrendar',views.arrendar,name="arrendar"),
+    path('arrendar/<str:pk>',views.arrendar,name="arrendar"),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_URL)
