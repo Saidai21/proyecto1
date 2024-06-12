@@ -194,8 +194,9 @@ def arrendar(request,pk):
             return render(request,'alumnos/iniciar_sesion.html')
     else:
         productos=Producto.objects.get(id_producto=pk)
+        tipo_bici=productos.descripcion_prod
         print(type(productos.descripcion_prod))
         context = {'clientes': clientes,
         'nombre_usuario': nombre_usuario,
-        "productos":productos}
+        "tipo_bici":tipo_bici}
     return render(request, 'alumnos/arrendar.html', context)

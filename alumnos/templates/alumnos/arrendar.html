@@ -64,9 +64,7 @@
           <div class="form-group">
               <label for="tipoBicicleta">Tipo de Bicicleta</label>
               <select class="form-control" id="tipoBicicleta" name="tipoBicicleta">
-                {% for producto in producto %}
-                <option value="{{ producto.id_producto }}" selected>{{producto.descripcion_prod}}</option>
-                {% endfor %}
+                <option value="{{ tipo_bici }}" selected>{{tipo_bici}}</option>
               </select>
           </div>
         <!-- Periodo de Arriendo -->
