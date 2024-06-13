@@ -35,21 +35,6 @@ $(document).ready(function(){
             $("#mensajeForma").fadeOut();
             $("#formaPago").css("border-color", "#ced4da")
         }
-        if(depositoGarantia==""){
-            $("#mensajeDeposito").fadeIn();
-            $("#depositoGarantia").css("border-color","red")
-            event.preventDefault();
-        }else{
-            if(depositoGarantia<=0){
-                $("#mensajeDeposito2").fadeIn();
-                $("#depositoGarantia").css("border-color","red")
-                event.preventDefault();
-            }else{
-                $("#mensajeDeposito2").fadeOut();
-                $("#mensajeDeposito").fadeOut()
-                $("#depositoGarantia").css("border-color", "#ced4da")
-            }
-        }
         $("#nombreCliente").change(function(){
             $("#nombreCliente").css("border-color", "#ced4da")
             $("#mensajeNombre").fadeOut()
