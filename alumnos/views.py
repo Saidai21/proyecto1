@@ -181,6 +181,9 @@ def perfil(request):
         'nombre_usuario': nombre_usuario}
     return render(request, 'alumnos/perfil.html', context)
 
+from django.shortcuts import render, redirect
+from .models import Cliente, Producto, Arriendo
+
 def arrendar(request, pk):
     clientes = Cliente.objects.all()
     nombre_usuario = None
@@ -194,9 +197,10 @@ def arrendar(request, pk):
     tipo_bici = productos.descripcion_prod
 
     if request.method == 'POST':
-        periodo_arriendo = request.POST.get('periodoArriendo')
+        periodo_arriendo = int(request.POST.get('periodoArriendo'))
         forma_pago = request.POST.get('formaPago')
-        deposito_garantia = request.POST.get('depositoGarantia')
+
+        deposito_garantia = periodo_arriendo * 5000  
 
         arriendo = Arriendo(
             cliente=cliente,
@@ -206,7 +210,7 @@ def arrendar(request, pk):
             deposito_garantia=deposito_garantia
         )
         arriendo.save()
-        return redirect('alumnos/index.html') 
+        return redirect('almunos/index.html')  # Cambia 'some_success_url' por la URL a la que quieres redirigir después de guardar
 
     context = {
         'clientes': clientes,
