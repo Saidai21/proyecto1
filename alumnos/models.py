@@ -66,3 +66,15 @@ class Reparacion(models.Model):
     usuario = models.ForeignKey(Cliente, on_delete=models.CASCADE, db_column='id_cliente')
     def __str__(self) -> str:
         return (self.rut)
+    
+class Arriendo(models.Model):
+    id_arriendo = models.AutoField(primary_key=True)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, db_column='id_cliente')
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, db_column='id_producto')
+    fecha_arriendo = models.DateTimeField(auto_now_add=True)
+    periodo_arriendo = models.IntegerField()
+    forma_pago = models.CharField(max_length=50)
+    deposito_garantia = models.IntegerField()
+
+    def __str__(self):
+        return f"Arriendo {self.id_arriendo} - Cliente {self.cliente.nombre}"

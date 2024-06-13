@@ -57,68 +57,51 @@
     </div>
   </nav>
       <br>
-    <div class="container-sm">
+      <div class="container-sm">
         <h1 class="text-center">SOLICITUD DE ARRIENDO</h1>
-        <form>
-          <div class="form-group">
-            <label for="nombreCliente">Nombre del Cliente</label>
-            <input type="text" class="form-control" id="nombreCliente" placeholder="Ingrese su nombre" name="nombreCliente">
-            <div class="mensajError text-center">
-              <span id="mensajeNombre">Ingrese nombre</span>
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nombreCliente">Nombre del Cliente</label>
+                <input type="text" class="form-control" id="nombreCliente" value="{{ nombre_usuario }}" readonly>
             </div>
-        </div>
 
-        <!-- Tipo de Bicicleta -->
-          <div class="form-group">
-              <label for="tipoBicicleta">Tipo de Bicicleta</label>
-              <select class="form-control" id="tipoBicicleta" name="tipoBicicleta">
-                <option value="{{ tipo_bici }}" selected>{{tipo_bici}}</option>
-              </select>
-          </div>
-        <!-- Periodo de Arriendo -->
-        <div class="form-group">
-            <label for="periodoArriendo">Periodo de Arriendo</label>
-            <input type="number" class="form-control" id="periodoArriendo" placeholder="Ingrese el número de días" name="periodoArriendo">
-            <div class="mensajError text-center">
-              <span id="mensajePeriodo">Ingrese el Periodo de Arriendo</span>
+            <!-- Tipo de Bicicleta -->
+            <div class="form-group">
+                <label for="tipoBicicleta">Tipo de Bicicleta</label>
+                <select class="form-control" id="tipoBicicleta" name="tipoBicicleta" readonly>
+                    <option value="{{ tipo_bici }}" selected>{{ tipo_bici }}</option>
+                </select>
             </div>
-            <div class="mensajError text-center">
-              <span id="mensajePeriodo2">Ingrese un periodo de arriendo valido(mayor a 0)</span>
-            </div>
-        </div>
 
-        <!-- Forma de Pago -->
-        <div class="form-group">
-            <label for="formaPago">Forma de Pago</label>
-            <select class="form-control" id="formaPago" name="formaPago">
-                <option disabled selected>Seleccion forma de Pago</option>
-                <option>Tarjeta de Crédito</option>
-                <option>Tarjeta de Débito</option>
-                <option>Transferencia Bancaria</option>
-                <option>Efectivo</option>
-            </select>
-            <div class="mensajError text-center">
-              <span id="mensajeForma">Ingrese una Forma de Pago</span>
+            <!-- Periodo de Arriendo -->
+            <div class="form-group">
+                <label for="periodoArriendo">Periodo de Arriendo</label>
+                <input type="number" class="form-control" id="periodoArriendo" placeholder="Ingrese el número de días" name="periodoArriendo">
             </div>
-        </div>
 
-        <!-- Depósito de Garantía -->
-        <div class="form-group">
-            <label for="depositoGarantia">Depósito de Garantía</label>
-            <input type="number" class="form-control" id="depositoGarantia" placeholder="Ingrese el monto del depósito" name="depositoGarantia">
-            <div class="mensajError text-center">
-              <span id="mensajeDeposito">Ingrese Depósito de Garantía</span>
+            <!-- Forma de Pago -->
+            <div class="form-group">
+                <label for="formaPago">Forma de Pago</label>
+                <select class="form-control" id="formaPago" name="formaPago">
+                    <option disabled selected>Seleccion forma de Pago</option>
+                    <option>Tarjeta de Crédito</option>
+                    <option>Tarjeta de Débito</option>
+                    <option>Transferencia Bancaria</option>
+                    <option>Efectivo</option>
+                </select>
             </div>
-            <div class="mensajError text-center">
-              <span id="mensajeDeposito2">Ingrese Depósito de Garantía valido</span>
-            </div>
-        </div>
 
-        <!-- Botón de Enviar -->
-        <button  class="btn btn-primary" id="Enviar">Enviar Solicitud</button>
+            <!-- Depósito de Garantía -->
+            <div class="form-group">
+                <label for="depositoGarantia">Depósito de Garantía</label>
+                <input type="number" class="form-control" id="depositoGarantia" placeholder="Ingrese el monto del depósito" name="depositoGarantia">
+            </div>
+
+            <!-- Botón de Enviar -->
+            <button type="submit" class="btn btn-primary" id="Enviar">Enviar Solicitud</button>
         </form>
     </div>
-
 
 
 

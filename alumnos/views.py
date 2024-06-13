@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.utils.dateparse import parse_datetime
 from django.http import HttpResponse
-from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado
+from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo
 from django.contrib.auth import logout
 
 def index(request):
@@ -181,22 +181,36 @@ def perfil(request):
         'nombre_usuario': nombre_usuario}
     return render(request, 'alumnos/perfil.html', context)
 
-def arrendar(request,pk):
+def arrendar(request, pk):
     clientes = Cliente.objects.all()
     nombre_usuario = None
     if 'cliente_id' in request.session:
         cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
         nombre_usuario = cliente.nombre
-    context = {'clientes': clientes,
-        'nombre_usuario': nombre_usuario}
-    cliente_id = request.session.get('cliente_id')
-    if not cliente_id:
-            return render(request,'alumnos/iniciar_sesion.html')
     else:
-        productos=Producto.objects.get(id_producto=pk)
-        tipo_bici=productos.descripcion_prod
-        print(type(productos.descripcion_prod))
-        context = {'clientes': clientes,
+        return render(request, 'alumnos/iniciar_sesion.html')
+
+    productos = Producto.objects.get(id_producto=pk)
+    tipo_bici = productos.descripcion_prod
+
+    if request.method == 'POST':
+        periodo_arriendo = request.POST.get('periodoArriendo')
+        forma_pago = request.POST.get('formaPago')
+        deposito_garantia = request.POST.get('depositoGarantia')
+
+        arriendo = Arriendo(
+            cliente=cliente,
+            producto=productos,
+            periodo_arriendo=periodo_arriendo,
+            forma_pago=forma_pago,
+            deposito_garantia=deposito_garantia
+        )
+        arriendo.save()
+        return redirect('alumnos/index.html')  # Cambia 'some_success_url' por la URL a la que quieres redirigir después de guardar
+
+    context = {
+        'clientes': clientes,
         'nombre_usuario': nombre_usuario,
-        "tipo_bici":tipo_bici}
+        'tipo_bici': tipo_bici,
+    }
     return render(request, 'alumnos/arrendar.html', context)
