@@ -206,7 +206,7 @@ def arrendar(request, pk):
             deposito_garantia=deposito_garantia
         )
         arriendo.save()
-        return redirect('alumnos/index.html')  # Cambia 'some_success_url' por la URL a la que quieres redirigir después de guardar
+        return redirect('alumnos/index.html') 
 
     context = {
         'clientes': clientes,
