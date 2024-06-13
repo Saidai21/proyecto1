@@ -181,9 +181,6 @@ def perfil(request):
         'nombre_usuario': nombre_usuario}
     return render(request, 'alumnos/perfil.html', context)
 
-from django.shortcuts import render, redirect
-from .models import Cliente, Producto, Arriendo
-
 def arrendar(request, pk):
     clientes = Cliente.objects.all()
     nombre_usuario = None
@@ -197,10 +194,34 @@ def arrendar(request, pk):
     tipo_bici = productos.descripcion_prod
 
     if request.method == 'POST':
-        periodo_arriendo = int(request.POST.get('periodoArriendo'))
+        periodo_arriendo = request.POST.get('periodoArriendo')
         forma_pago = request.POST.get('formaPago')
+        deposito_garantia = request.POST.get('depositoGarantia')
 
-        deposito_garantia = periodo_arriendo * 5000  
+        # Validar que los campos no estén vacíos
+        if not periodo_arriendo or not deposito_garantia:
+            # Manejo de error: redirigir o mostrar mensaje de error
+            context = {
+                'clientes': clientes,
+                'nombre_usuario': nombre_usuario,
+                'tipo_bici': tipo_bici,
+                'error': 'Todos los campos son obligatorios.'
+            }
+            return render(request, 'alumnos/arrendar.html', context)
+        
+        # Convertir valores a enteros
+        try:
+            periodo_arriendo = int(periodo_arriendo)
+            deposito_garantia = int(deposito_garantia)
+        except ValueError:
+            # Manejo de error: valores no válidos
+            context = {
+                'clientes': clientes,
+                'nombre_usuario': nombre_usuario,
+                'tipo_bici': tipo_bici,
+                'error': 'Por favor, ingrese valores válidos.'
+            }
+            return render(request, 'alumnos/arrendar.html', context)
 
         arriendo = Arriendo(
             cliente=cliente,
@@ -210,7 +231,7 @@ def arrendar(request, pk):
             deposito_garantia=deposito_garantia
         )
         arriendo.save()
-        return redirect('almunos/index.html')  # Cambia 'some_success_url' por la URL a la que quieres redirigir después de guardar
+        return redirect('index')  # Redirigir a la página de inicio
 
     context = {
         'clientes': clientes,
@@ -218,3 +239,4 @@ def arrendar(request, pk):
         'tipo_bici': tipo_bici,
     }
     return render(request, 'alumnos/arrendar.html', context)
+

@@ -7,19 +7,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <title>Document</title>
-    {% load static%}
+    {% load static %}
     <script src="{% static 'js/arrendar.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/index.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/style_reparaciones.css' %}" />
     <link rel="stylesheet" href="{% static 'css/arrendar.css' %}">
-    
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="logo">
       <img src="{% static 'img/logo_bici.png' %}" alt="" class="img-fluid" />
     </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
@@ -33,9 +34,9 @@
         </li>
         {% if request.session.cliente_id %}
         <li class="nav-item active">
-          <a class="btn" href="{% url 'mis_reparaciones' %}">MiS REPARACIONES</a>
+          <a class="btn" href="{% url 'mis_reparaciones' %}">MIS REPARACIONES</a>
         </li>
-        {%endif%}
+        {% endif %}
       </ul>
       <ul class="navbar-nav ml-auto">
         {% if nombre_usuario %}
@@ -56,53 +57,74 @@
       </ul>
     </div>
   </nav>
-      <br>
-      <div class="container-sm">
-        <h1 class="text-center">SOLICITUD DE ARRIENDO</h1>
-        <form method="post" action="">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="nombreCliente">Nombre del Cliente</label>
-                <input type="text" class="form-control" id="nombreCliente" value="{{ nombre_usuario }}" readonly>
-            </div>
+  <br>
+  <div class="container-sm">
+      <h1 class="text-center">SOLICITUD DE ARRIENDO</h1>
+      <form method="post" action="">
+          {% csrf_token %}
+          <div class="form-group">
+              <label for="nombreCliente">Nombre del Cliente</label>
+              <input type="text" class="form-control" id="nombreCliente" value="{{ nombre_usuario }}" readonly>
+          </div>
 
-            <!-- Tipo de Bicicleta -->
-            <div class="form-group">
-                <label for="tipoBicicleta">Tipo de Bicicleta</label>
-                <select class="form-control" id="tipoBicicleta" name="tipoBicicleta" readonly>
-                    <option value="{{ tipo_bici }}" selected>{{ tipo_bici }}</option>
-                </select>
-            </div>
+          <!-- Tipo de Bicicleta -->
+          <div class="form-group">
+              <label for="tipoBicicleta">Tipo de Bicicleta</label>
+              <select class="form-control" id="tipoBicicleta" name="tipoBicicleta" readonly>
+                  <option value="{{ tipo_bici }}" selected>{{ tipo_bici }}</option>
+              </select>
+          </div>
 
-            <!-- Periodo de Arriendo -->
-            <div class="form-group">
-                <label for="periodoArriendo">Periodo de Arriendo</label>
-                <input type="number" class="form-control" id="periodoArriendo" placeholder="Ingrese el número de días" name="periodoArriendo">
-            </div>
+          <!-- Periodo de Arriendo -->
+          <div class="form-group">
+              <label for="periodoArriendo">Periodo de Arriendo</label>
+              <input type="number" class="form-control" id="periodoArriendo" placeholder="Ingrese el número de días" name="periodoArriendo" oninput="calcularGarantia()">
+              <div class="mensajError text-center">
+                  <span id="mensajePeriodo">Ingrese el Periodo de Arriendo</span>
+              </div>
+              <div class="mensajError text-center">
+                  <span id="mensajePeriodo2">Ingrese un periodo de arriendo valido (mayor a 0)</span>
+              </div>
+          </div>
 
-            <!-- Forma de Pago -->
-            <div class="form-group">
-                <label for="formaPago">Forma de Pago</label>
-                <select class="form-control" id="formaPago" name="formaPago">
-                    <option disabled selected>Seleccion forma de Pago</option>
-                    <option>Tarjeta de Crédito</option>
-                    <option>Tarjeta de Débito</option>
-                    <option>Transferencia Bancaria</option>
-                    <option>Efectivo</option>
-                </select>
-            </div>
+          <!-- Forma de Pago -->
+          <div class="form-group">
+              <label for="formaPago">Forma de Pago</label>
+              <select class="form-control" id="formaPago" name="formaPago">
+                  <option disabled selected>Seleccion forma de Pago</option>
+                  <option>Tarjeta de Crédito</option>
+                  <option>Tarjeta de Débito</option>
+                  <option>Transferencia Bancaria</option>
+                  <option>Efectivo</option>
+              </select>
+              <div class="mensajError text-center">
+                  <span id="mensajeForma">Ingrese una Forma de Pago</span>
+              </div>
+          </div>
 
-            <!-- Depósito de Garantía -->
-            <div class="form-group">
+          <!-- Depósito de Garantía -->
+          <div class="form-group">
               <label for="depositoGarantia">Depósito de Garantía</label>
               <input type="number" class="form-control" id="depositoGarantia" name="depositoGarantia" readonly>
-          </div>  
+              <div class="mensajError text-center">
+                  <span id="mensajeDeposito">Ingrese Depósito de Garantía</span>
+              </div>
+              <div class="mensajError text-center">
+                  <span id="mensajeDeposito2">Ingrese Depósito de Garantía válido</span>
+              </div>
+          </div>
 
-            <!-- Botón de Enviar -->
-            <button type="submit" class="btn btn-primary" id="Enviar">Enviar Solicitud</button>
-        </form>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+          <!-- Botón de Enviar -->
+          <button type="submit" class="btn btn-primary" id="Enviar">Enviar Solicitud</button>
+      </form>
+  </div>
+
+  <script>
+      function calcularGarantia() {
+          var periodo = document.getElementById('periodoArriendo').value;
+          var garantia = periodo * 5000; // Ajusta el valor de la garantía por día según tus necesidades
+          document.getElementById('depositoGarantia').value = garantia;
+      }
+  </script>
 </body>
 </html>

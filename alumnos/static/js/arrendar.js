@@ -65,9 +65,3 @@ $(document).ready(function(){
         })
     })
 })
-
-$(document).ready(function(){
-    var periodo = document.getElementById('periodoArriendo').value;
-    var garantia = periodo * 1000; // Ejemplo: $1000 por día
-    document.getElementById('depositoGarantia').value = garantia;
-})
