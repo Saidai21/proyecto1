@@ -15,10 +15,12 @@ $(document).ready(function(){
         if(periodoArriendo==""){
             $("#mensajePeriodo").fadeIn();
             $("#periodoArriendo").css("border-color","red")
+            event.preventDefault();
         }else{
             if(periodoArriendo<=0){
                 $("#mensajePeriodo2").fadeIn();
                 $("#periodoArriendo").css("border-color","red")
+                event.preventDefault();
             }else{
                 $("#mensajePeriodo2").fadeOut();
                 $("#mensajePeriodo").fadeOut()
@@ -28,6 +30,7 @@ $(document).ready(function(){
         if(formaPago==null){
             $("#mensajeForma").fadeIn();
             $("#formaPago").css("border-color","red")
+            event.preventDefault();
         }else{
             $("#mensajeForma").fadeOut();
             $("#formaPago").css("border-color", "#ced4da")
@@ -35,10 +38,12 @@ $(document).ready(function(){
         if(depositoGarantia==""){
             $("#mensajeDeposito").fadeIn();
             $("#depositoGarantia").css("border-color","red")
+            event.preventDefault();
         }else{
             if(depositoGarantia<=0){
                 $("#mensajeDeposito2").fadeIn();
                 $("#depositoGarantia").css("border-color","red")
+                event.preventDefault();
             }else{
                 $("#mensajeDeposito2").fadeOut();
                 $("#mensajeDeposito").fadeOut()
