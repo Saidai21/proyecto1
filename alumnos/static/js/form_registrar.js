@@ -10,22 +10,27 @@ $(document).ready(function(){
           $("#itCorreo").css("border-color", "red");
           $("#mensajeCorreo2").fadeIn();
           valcor = false;
+          event.preventDefault();
+      }else{
+        if(correo == ""){
+            $("#itCorreo").css("border-color", "red");
+            $("#mensajeCorreo").fadeIn();
+            valcor = false;
+            event.preventDefault();
+        } else if(valcor) {
+            $("#itCorreo").css("border-color", "#ced4da");
+            $("#mensajeCorreo").fadeOut();
+            $("#mensajeCorreo2").fadeOut();
+        }
       }
       
-      if(correo == ""){
-          $("#itCorreo").css("border-color", "red");
-          $("#mensajeCorreo").fadeIn();
-          valcor = false;
-      } else if(valcor) {
-          $("#itCorreo").css("border-color", "#ced4da");
-          $("#mensajeCorreo").fadeOut();
-          $("#mensajeCorreo2").fadeOut();
-      }
+
 
       if(nombre == ""){
           $("#itNombre").css("border-color", "red");
           $("#mensajeNombre").fadeIn();
           valcor = false;
+          event.preventDefault();
       } else {
           $("#itNombre").css("border-color", "#ced4da");
           $("#mensajeNombre").fadeOut();
@@ -35,6 +40,7 @@ $(document).ready(function(){
           $("#itContrasena").css("border-color", "red");
           $("#mensajeContrasena").fadeIn();
           valcor = false;
+          event.preventDefault();
       } else {
           $("#itContrasena").css("border-color", "#ced4da");
           $("#mensajeContrasena").fadeOut();
