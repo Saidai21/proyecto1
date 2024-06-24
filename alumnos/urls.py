@@ -6,7 +6,7 @@ from . import views
 from instituto import settings
 
 urlpatterns = [
-    path('index', views.index, name='index'),
+    path('', views.index, name='index'),
     path('iniciar_sesion', views.iniciar_sesion, name='iniciar_sesion'),
     path('registrarse', views.registrarse, name='registrarse'),
     path('catalogo', views.catalogo, name='catalogo'),
