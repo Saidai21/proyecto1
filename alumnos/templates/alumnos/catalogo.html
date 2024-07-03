@@ -11,6 +11,14 @@
       <button class="btn btn-primary" id="boton_1" data-toggle="collapse" data-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">Montaña</button>
       <button class="btn btn-primary" id="boton_2" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">BMX</button>
       <button class="btn btn-primary" id="boton_3" data-toggle="collapse" data-target="#multiCollapseExample3" aria-expanded="false" aria-controls="multiCollapseExample3">Urbanas</button>
+      <div class="form-group">
+        <select name="moneda" id="moneda" class="form-control moneda">
+          <option value="CLP">CLP</option>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+        </select>
+      </div>
+
       <!-- Cards dentro de los botones -->
       <div class="row">
         <!-- Montaña -->
@@ -24,7 +32,7 @@
                       <img src="{{ producto.imagen.url }}" class="card-img-top img-fluid" alt="{{ producto.nombre_prod }}" height="300px" />
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
-                        <p class="card-text">${{ producto.precio }}</p>
+                        <p class="card-text precio" data-precio="{{ producto.precio }}">$ {{ producto.precio }}</p>
                         <a href="{% url 'arrendar' pk=producto.id_producto%}">
                           <button class="btn btn-primary">
                             Arrendar
@@ -49,7 +57,7 @@
                       <img src="{{ producto.imagen.url }}" class="card-img-top img-fluid" alt="{{ producto.nombre_prod }}" height="300px" />
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
-                        <p class="card-text">${{ producto.precio }}</p>
+                        <p class="card-text precio" data-precio="{{ producto.precio }}">$ {{ producto.precio }}</p>
                         <a href="{% url 'arrendar' pk=producto.id_producto%}">
                           <button class="btn btn-primary">
                             Arrendar
@@ -74,7 +82,7 @@
                       <img src="{{ producto.imagen.url }}" class="card-img-top img-fluid" alt="{{ producto.nombre_prod }}" height="300px" />
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
-                        <p class="card-text">${{ producto.precio }}</p>
+                        <p class="card-text precio" data-precio="{{ producto.precio }}">$ {{ producto.precio }}</p>
                         <a href="{% url 'arrendar' pk=producto.id_producto%}">
                           <button class="btn btn-primary">
                             Arrendar
@@ -91,6 +99,5 @@
       </div>
     </div>
     
- 
 
 {% endblock %}
