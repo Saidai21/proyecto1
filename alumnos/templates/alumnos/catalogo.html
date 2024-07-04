@@ -1,7 +1,6 @@
 {% extends "alumnos/base.html" %}
 {% block content %}
 {% load static %}
-
     <!-- Botones -->
     <div id="logo_carrito">
       <a href=""><img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="" class="img-fluid" id="imagen_carrito" /></a>
@@ -33,9 +32,14 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
                         <p class="card-text precio" data-precio="{{ producto.precio }}">$ {{ producto.precio }}</p>
-                        <a href="{% url 'arrendar' pk=producto.id_producto%}">
+                        <a href="{% url 'arrendar' pk=producto.id_producto %}">
                           <button class="btn btn-primary">
                             Arrendar
+                          </button>
+                        </a>
+                        <a href="{% url 'agregar_al_carrito' producto.id_producto %}">
+                          <button class="btn btn-success mt-2">
+                            Comprar
                           </button>
                         </a>
                       </div>
@@ -58,9 +62,14 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
                         <p class="card-text precio" data-precio="{{ producto.precio }}">$ {{ producto.precio }}</p>
-                        <a href="{% url 'arrendar' pk=producto.id_producto%}">
+                        <a href="{% url 'arrendar' pk=producto.id_producto %}">
                           <button class="btn btn-primary">
                             Arrendar
+                          </button>
+                        </a>
+                        <a href="{% url 'agregar_al_carrito' producto.id_producto %}">
+                          <button class="btn btn-success mt-2">
+                            Comprar
                           </button>
                         </a>
                       </div>
@@ -83,9 +92,14 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
                         <p class="card-text precio" data-precio="{{ producto.precio }}">$ {{ producto.precio }}</p>
-                        <a href="{% url 'arrendar' pk=producto.id_producto%}">
+                        <a href="{% url 'arrendar' pk=producto.id_producto %}">
                           <button class="btn btn-primary">
                             Arrendar
+                          </button>
+                        </a>
+                        <a href="{% url 'agregar_al_carrito' producto.id_producto %}">
+                          <button class="btn btn-success mt-2">
+                            Comprar
                           </button>
                         </a>
                       </div>

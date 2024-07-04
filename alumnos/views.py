@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.contrib import messages
 from django.utils.dateparse import parse_datetime
 from django.http import HttpResponse
-from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo
+from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo,Carrito
 from django.contrib.auth import logout
+from django.shortcuts import redirect
+from django.http import JsonResponse
 
 def index(request):
     clientes = Cliente.objects.all()
@@ -99,9 +101,7 @@ def catalogo(request):
     productos_urbanas = productos.filter(categoria__nombre_catg='Urbanas')
     clientes = Cliente.objects.all()
     nombre_usuario = None
-    if 'cliente_id' in request.session:
-        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
-        nombre_usuario = cliente.nombre
+      
 
     context = {
         'productos': productos,
@@ -240,3 +240,46 @@ def arrendar(request, pk):
     }
     return render(request, 'alumnos/arrendar.html', context)
 
+def agregar_al_carrito(request, producto_id):
+    if 'cliente_id' not in request.session:
+        return redirect('iniciar_sesion')
+
+    producto = get_object_or_404(Producto, id_producto=producto_id)
+    cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+
+    carrito, created = Carrito.objects.get_or_create(cliente=cliente, producto=producto)
+    
+    if not created:
+        carrito.cantidad += 1
+    else:
+        carrito.cantidad = 1
+    
+    carrito.save()
+    
+    return redirect('catalogo')
+
+def eliminar_del_carrito(request, item_id):
+    if request.method == 'POST':
+        try:
+            item = Carrito.objects.get(id=item_id)
+            item.delete()
+            return JsonResponse({'success': True})
+        except Carrito.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Item not found'})
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+def ver_carrito(request):
+    if 'cliente_id' not in request.session:
+        return redirect('iniciar_sesion')
+
+    cliente_id = request.session['cliente_id']
+    cliente = Cliente.objects.get(id_cliente=cliente_id)
+
+    carrito_items = Carrito.objects.filter(cliente=cliente)
+
+    context = {
+        'cliente': cliente,
+        'carrito_items': carrito_items
+    }
+
+    return render(request, 'alumnos/ver_carrito.html', context)
