@@ -260,12 +260,9 @@ def agregar_al_carrito(request, producto_id):
 
 def eliminar_del_carrito(request, item_id):
     if request.method == 'POST':
-        try:
-            item = Carrito.objects.get(id=item_id)
-            item.delete()
-            return JsonResponse({'success': True})
-        except Carrito.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Item not found'})
+        item = get_object_or_404(Carrito, id=item_id)
+        item.delete()
+        return JsonResponse({'success': True})
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 def ver_carrito(request):
