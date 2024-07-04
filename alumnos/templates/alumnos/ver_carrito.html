@@ -1,5 +1,6 @@
 {% extends "alumnos/base.html" %}
 {% block content %}
+{% load static %}
 <div class="container">
     <h1>Carrito de Compra</h1>
     {% if carrito_items %}
@@ -14,24 +15,24 @@
                     <th scope="col">Eliminar</th> 
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="carrito-body">
                 {% for item in carrito_items %}
-                <tr>
+                <tr id="item-{{ item.id }}">
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ item.producto.nombre_prod }}</td>
-                    <td>${{ item.producto.precio }}</td>
+                    <td class="precio">${{ item.producto.precio }}</td>
                     <td><img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre_prod }}" height="100px"></td>
-                    <td>{{ item.cantidad }}</td>
+                    <td class="cantidad">{{ item.cantidad }}</td>
                     <td>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarProducto({{ item.id }})">Eliminar</button>
+                        <button class="btn btn-danger btn-sm eliminar-btn" data-id="{{ item.id }}">Eliminar</button>
                     </td>
                 </tr>
                 {% endfor %}
                 <tr>
                     <td colspan="2"><strong>Total</strong></td>
-                    <td id="total-precios"><strong>${{ carrito_total }}</strong></td>
+                    <td id="total-precios"><strong>$0</strong></td>
                     <td></td>
-                    <td id="total-cantidad"><strong>{{ total_cantidad }}</strong></td>
+                    <td id="total-cantidad"><strong>0</strong></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -41,4 +42,52 @@
         <p>El carrito está vacío.</p>
     {% endif %}
 </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function actualizarTotal() {
+            var totalPrecio = 0;
+            var totalCantidad = 0;
+
+            $('.precio').each(function() {
+                var precio = $(this).text().replace('$', '');
+                totalPrecio += parseFloat(precio);
+            });
+
+            $('.cantidad').each(function() {
+                var cantidad = $(this).text();
+                totalCantidad += parseInt(cantidad);
+            });
+
+            $('#total-precios').html('<strong>$' + totalPrecio.toFixed(2) + '</strong>');
+            $('#total-cantidad').html('<strong>' + totalCantidad + '</strong>');
+        }
+
+        function eliminarProducto(itemId) {
+            $.ajax({
+                url: '{% url "eliminar_del_carrito" 0 %}'.replace('0', itemId),
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#item-' + itemId).remove();
+                        actualizarTotal();
+                    } else {
+                        alert('Error al eliminar el producto: ' + response.error);
+                    }
+                }
+            });
+        }
+
+        $('.eliminar-btn').on('click', function() {
+            var itemId = $(this).data('id');
+            eliminarProducto(itemId);
+        });
+
+        actualizarTotal();
+    });
+</script>
 {% endblock %}
