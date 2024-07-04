@@ -78,3 +78,11 @@ class Arriendo(models.Model):
 
     def __str__(self):
         return f"Arriendo {self.id_arriendo} - Cliente {self.cliente.nombre}"
+
+class Carrito(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        unique_together = ('cliente', 'producto')

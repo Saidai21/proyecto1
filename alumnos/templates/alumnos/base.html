@@ -43,6 +43,7 @@
         </ul>
         <ul class="navbar-nav ml-auto">
           {% if nombre_usuario %}
+                    <a href="{% url 'ver_carrito' %}">Ver Carrito</a>
             <li class="nav-item active">
               <a class="btn disabled" href="">{{ nombre_usuario }}</a>
             </li>
