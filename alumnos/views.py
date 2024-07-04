@@ -39,22 +39,22 @@ def iniciar_sesion(request):
     if 'cliente_id' in request.session:
         cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
         nombre_usuario = cliente.nombre
+    
     if request.method == 'POST':
         correo = request.POST['correo']
         contrasena = request.POST['contrasena']
         
-        try:
-            cliente = Cliente.objects.get(correo=correo, contrasena=contrasena)
-            request.session['cliente_id'] = cliente.id_cliente  # Guardar el id_cliente en la sesión
+        cliente = Cliente.objects.filter(correo=correo, contrasena=contrasena).first()
+        if cliente:
+            request.session['cliente_id'] = cliente.id_cliente  
             request.session['nombre'] = cliente.nombre
-            return redirect('index')
-        except Cliente.DoesNotExist:
-            messages.error(request, 'Correo o contraseña incorrectos')
+            return JsonResponse({'success': True})
+
     context = {
         'clientes': clientes,
         'nombre_usuario': nombre_usuario
     }
-    return render(request, 'alumnos/iniciar_sesion.html',context)
+    return render(request, 'alumnos/iniciar_sesion.html', context)
 
 
 def registrarse(request):
@@ -63,6 +63,7 @@ def registrarse(request):
     if 'cliente_id' in request.session:
         cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
         nombre_usuario = cliente.nombre
+    
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         correo = request.POST.get('correo')
@@ -70,24 +71,13 @@ def registrarse(request):
         
         # Validaciones adicionales
         if not nombre or not correo or not contrasena:
-            messages.error(request, 'Por favor complete todos los campos')
-            return render(request, 'alumnos/registrarse.html', context={
-                'clientes': clientes,
-                'nombre_usuario': nombre_usuario
-            })
+            return JsonResponse({'success': False, 'error': 'Por favor complete todos los campos'})
 
         if Cliente.objects.filter(correo=correo).exists():
-            messages.error(request, 'El correo ya está registrado')
-            return render(request, 'alumnos/registrarse.html', context={
-                'clientes': clientes,
-                'nombre_usuario': nombre_usuario
-            })
+            return JsonResponse({'success': False, 'error': 'El correo ya está registrado'})
 
-        # Creación del nuevo usuario con la contraseña cifrada
-        usuario = Cliente(nombre=nombre, correo=correo, contrasena=(contrasena))
+        usuario = Cliente(nombre=nombre, correo=correo, contrasena=contrasena)
         usuario.save()
-        messages.success(request, 'Registro exitoso')
-        return redirect('alumnos/iniciar_sesion.html')  # Usa el nombre de la URL configurada en tu archivo de URLs
     context = {
         'clientes': clientes,
         'nombre_usuario': nombre_usuario
@@ -156,17 +146,6 @@ def reparaciones(request):
         'nombre_usuario': nombre_usuario
     }
     return render(request, 'alumnos/reparaciones.html',context)
-
-
-def mis_reparaciones(request):
-    clientes = Cliente.objects.all()
-    nombre_usuario = None
-    if 'cliente_id' in request.session:
-        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
-        nombre_usuario = cliente.nombre
-    context = {'clientes': clientes,
-        'nombre_usuario': nombre_usuario}
-    return render(request, 'alumnos/mis_reparaciones.html', context)
 
 def cerrar_sesion(request):
     logout(request)
