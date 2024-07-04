@@ -48,7 +48,8 @@ def iniciar_sesion(request):
         if cliente:
             request.session['cliente_id'] = cliente.id_cliente  
             request.session['nombre'] = cliente.nombre
-            return JsonResponse({'success': True})
+        return redirect('index')
+            
 
     context = {
         'clientes': clientes,
@@ -70,12 +71,6 @@ def registrarse(request):
         contrasena = request.POST.get('contrasena')
         
         # Validaciones adicionales
-        if not nombre or not correo or not contrasena:
-            return JsonResponse({'success': False, 'error': 'Por favor complete todos los campos'})
-
-        if Cliente.objects.filter(correo=correo).exists():
-            return JsonResponse({'success': False, 'error': 'El correo ya está registrado'})
-
         usuario = Cliente(nombre=nombre, correo=correo, contrasena=contrasena)
         usuario.save()
     context = {
