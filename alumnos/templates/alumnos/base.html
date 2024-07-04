@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style_form.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style_reparaciones.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style_botones.css' %}" />
-
+    <link rel="stylesheet" href="{% static 'css/style_carrito.css' %}">
 
 
   </head>
@@ -43,9 +43,11 @@
         </ul>
         <ul class="navbar-nav ml-auto">
           {% if nombre_usuario %}
-                    <a href="{% url 'ver_carrito' %}">Ver Carrito</a>
             <li class="nav-item active">
-              <a class="btn disabled" href="">{{ nombre_usuario }}</a>
+              <a class="btn" href="{% url 'ver_carrito' %}">Ver Carrito</a>
+            </li>
+            <li class="nav-item active">
+              <a class="btn " href="{% url 'perfil' %}">{{ nombre_usuario }}</a>
             </li>
             <li class="nav-item active">
               <a class="btn" href="{% url 'cerrar_sesion' %}">CERRAR SESION</a>

@@ -101,8 +101,9 @@ def catalogo(request):
     productos_urbanas = productos.filter(categoria__nombre_catg='Urbanas')
     clientes = Cliente.objects.all()
     nombre_usuario = None
-      
-
+    if 'cliente_id' in request.session:
+        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+        nombre_usuario = cliente.nombre
     context = {
         'productos': productos,
         'productos_montana': productos_montana,
@@ -268,15 +269,17 @@ def eliminar_del_carrito(request, item_id):
 def ver_carrito(request):
     if 'cliente_id' not in request.session:
         return redirect('iniciar_sesion')
-
+    if 'cliente_id' in request.session:
+        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+        nombre_usuario = cliente.nombre
     cliente_id = request.session['cliente_id']
     cliente = Cliente.objects.get(id_cliente=cliente_id)
-
     carrito_items = Carrito.objects.filter(cliente=cliente)
 
     context = {
         'cliente': cliente,
-        'carrito_items': carrito_items
+        'carrito_items': carrito_items,
+        'nombre_usuario':nombre_usuario
     }
 
     return render(request, 'alumnos/ver_carrito.html', context)
