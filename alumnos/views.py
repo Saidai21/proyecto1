@@ -6,6 +6,29 @@ from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admi
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from .forms import UpdateProfileForm
+
+@login_required
+def update_profile(request):
+    user = request.user
+    if request.method == 'POST':
+        form = UpdateProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            password = form.cleaned_data.get('password')
+            if password:
+                user.set_password(password)
+            user.save()
+            return redirect('perfil')  # Redirigir a la página de perfil después de actualizar
+    else:
+        form = UpdateProfileForm(instance=user)
+    
+    return render(request, 'alumnos/update_profile.html', {'form': form})
+
+def perfil(request):
+    return render(request, 'alumnos/perfil.html')
 
 def index(request):
     clientes = Cliente.objects.all()
