@@ -37,3 +37,7 @@
 #boton_3:hover {
     background-color: #D93B3B; /* Rojo oscuro en el hover */
 }
+
+p{
+    color:black !important;
+}
