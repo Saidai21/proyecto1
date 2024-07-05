@@ -38,7 +38,9 @@
                 </tr>
             </tbody>
         </table>
-        <a href="{% url 'ver_carrito' %}" class="btn btn-primary" data-target="#exampleModal" data-toggle="modal">Pagar</a>
+        <a href="#" class="btn btn-primary pagar-btn">Pagar</a>
+        <!-- Cambia el href="#" por tu lógica de manejo de pago real, como el modal o una página de pago -->
+
         {% comment %} MODAL {% endcomment %}
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -61,56 +63,76 @@
         {% comment %} MODAL {% endcomment %}
     {% else %}
     <div class="alert alert-info text-center" role="alert">
-        El carrito esta vacío
+        El carrito está vacío
     </div>
     {% endif %}
 </div>
 
+<script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/carrito.js' %}"></script>
 <script>
 $(document).ready(function() {
-function actualizarTotal() {
-    var totalPrecio = 0;
-    var totalCantidad = 0;
+    // Función para pagar
+    $('.pagar-btn').on('click', function(e) {
+        e.preventDefault();
 
-    $('.precio').each(function() {
-        var precio = $(this).text().replace('$', '');
-        totalPrecio += parseFloat(precio);
+        // Iterar sobre cada producto en el carrito y eliminarlo
+        $('.eliminar-btn').each(function() {
+            var itemId = $(this).data('id');
+            eliminarProducto(itemId);
+        });
+
+        // Puedes añadir aquí más lógica de pago como mostrar el modal o redirigir a una página de pago
+        // Por ejemplo, mostrar el modal de pago exitoso
+        $('#exampleModal').modal('show');
     });
 
-    $('.cantidad').each(function() {
-        var cantidad = $(this).text();
-        totalCantidad += parseInt(cantidad);
-    });
-
-    $('#total-precios').html('<strong>$' + totalPrecio.toFixed(2) + '</strong>');
-    $('#total-cantidad').html('<strong>' + totalCantidad + '</strong>');
-}
-
-function eliminarProducto(itemId) {
-    $.ajax({
-        url: '{% url "eliminar_del_carrito" 0 %}'.replace('0', itemId),
-        type: 'POST',
-        data: {
-            csrfmiddlewaretoken: '{{ csrf_token }}'
-        },
-        success: function(response) {
-            if (response.success) {
-                $('#item-' + itemId).remove();
-                actualizarTotal();
-            } else {
-                alert('Error al eliminar el producto: ' + response.error);
+    // Función para eliminar un producto del carrito
+    function eliminarProducto(itemId) {
+        $.ajax({
+            url: '{% url "eliminar_del_carrito" 0 %}'.replace('0', itemId),
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#item-' + itemId).remove();
+                    actualizarTotal();
+                } else {
+                    alert('Error al eliminar el producto: ' + response.error);
+                }
             }
-        }
+        });
+    }
+
+    // Función para actualizar el total
+    function actualizarTotal() {
+        var totalPrecio = 0;
+        var totalCantidad = 0;
+
+        $('.precio').each(function() {
+            var precio = $(this).text().replace('$', '');
+            totalPrecio += parseFloat(precio);
+        });
+
+        $('.cantidad').each(function() {
+            var cantidad = $(this).text();
+            totalCantidad += parseInt(cantidad);
+        });
+
+        $('#total-precios').html('<strong>$' + totalPrecio.toFixed(2) + '</strong>');
+        $('#total-cantidad').html('<strong>' + totalCantidad + '</strong>');
+    }
+
+    // Evento de clic para eliminar un producto individualmente
+    $('.eliminar-btn').on('click', function() {
+        var itemId = $(this).data('id');
+        eliminarProducto(itemId);
     });
-}
 
-$('.eliminar-btn').on('click', function() {
-    var itemId = $(this).data('id');
-    eliminarProducto(itemId);
-});
-
-actualizarTotal();
+    // Actualizar total al cargar la página
+    actualizarTotal();
 });
 </script>
 {% endblock %}
