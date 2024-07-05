@@ -48,6 +48,8 @@ $(document).ready(function(){
 
       if (!valcor) {
           event.preventDefault(); // Evita que se envíe el formulario si hay errores de validación
+      }else{
+        $("#mensajeSuccess").fadeIn()
       }
   });
 
@@ -64,4 +66,6 @@ $(document).ready(function(){
       $("#itNombre").css("border-color", "#ced4da");
       $("#mensajeNombre").fadeOut();
   });
+
+
 });

@@ -57,3 +57,7 @@
         font-size: small;
     }
 }
+
+#mensajeSuccess{
+    display:none;
+}

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $("#enviar").click(function(){
+    $("#enviar").click(function(event){
       var valcor= true;
       var correo=$("#correo").val();
       var contrasena=$("#contrasena").val();
@@ -8,23 +8,24 @@ $(document).ready(function(){
           $("#correo").css("border-color","red");
           $("#mensajeCorreo2").fadeIn();
           valcor=false;
-          return false;
-          event.preventDefault(); // Evita que se envíe el formulario
-      }
-      if(correo==""){
-        $("#correo").css("border-color","red");
-        $("#mensajeCorreo").fadeIn();
-        return false;
+          event.preventDefault(); 
       }else{
-        if(valcor){
-          $("#correo").css("border-color","#ced4da");
-          $("#mensajeCorreo").fadeOut();
+        if(correo==""){
+          $("#correo").css("border-color","red");
+          $("#mensajeCorreo").fadeIn();
+          event.preventDefault();
+        }else{
+          if(valcor){
+            $("#correo").css("border-color","#ced4da");
+            $("#mensajeCorreo").fadeOut();
+          }
         }
       }
+
       if(contrasena==""){
         $("#contrasena").css("border-color","red");
         $("#mensajeContrasena").fadeIn();
-        return false;
+        event.preventDefault();
       }else{
         $("#contrasena").css("border-color","#ced4da");
         $("#mensajeContrasena").fadeOut();
