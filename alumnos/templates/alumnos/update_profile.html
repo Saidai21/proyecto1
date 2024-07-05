@@ -1,0 +1,27 @@
+{% extends "alumnos/base.html" %}
+{% block content %}
+    <div class="container-sm">
+        <div class="form_cont">
+            <!-- FORM -->
+            <form action="{% url 'update_profile' %}" method="POST">
+                {% csrf_token %}
+                <span class="text-center formato_titulo_form">Actualizar Perfil</span>
+                <br>
+                <div class="form-group">
+                    <label for="id_nombre">Nombre</label>
+                    {{ form.nombre }}
+                </div>
+                <div class="form-group">
+                    <label for="id_correo">Correo electrónico</label>
+                    {{ form.correo }}
+                </div>
+                <div class="form-group">
+                    <label for="id_password">Contraseña</label>
+                    {{ form.contrasena }}
+                    <small class="form-text text-muted">Dejar en blanco para mantener la misma contraseña.</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

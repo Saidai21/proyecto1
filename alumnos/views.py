@@ -1,35 +1,56 @@
-from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from django.contrib import messages
-from django.utils.dateparse import parse_datetime
-from django.http import HttpResponse
-from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo,Carrito
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
-from django.shortcuts import redirect
 from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.utils.dateparse import parse_datetime
+from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo, Carrito
 from .forms import UpdateProfileForm
 
-@login_required
-def update_profile(request):
-    user = request.user
-    if request.method == 'POST':
-        form = UpdateProfileForm(request.POST, instance=user)
-        if form.is_valid():
-            user = form.save(commit=False)
-            password = form.cleaned_data.get('password')
-            if password:
-                user.set_password(password)
-            user.save()
-            return redirect('perfil')  # Redirigir a la página de perfil después de actualizar
-    else:
-        form = UpdateProfileForm(instance=user)
-    
-    return render(request, 'alumnos/update_profile.html', {'form': form})
 
 def perfil(request):
-    return render(request, 'alumnos/perfil.html')
+    clientes = Cliente.objects.all()
+    nombre_usuario = None
+    email_usuario = None
+    
+    if 'cliente_id' in request.session:
+        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+        nombre_usuario = cliente.nombre
+        email_usuario = cliente.correo  
+    
+    context = {
+        'clientes': clientes,
+        'nombre_usuario': nombre_usuario,
+        'email_usuario': email_usuario, 
+    }
+    return render(request, 'alumnos/perfil.html', context)
 
+
+def update_profile(request):
+    if request.method == 'POST':
+        if 'cliente_id' in request.session:
+            user = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+            form = UpdateProfileForm(request.POST, instance=user)
+            if form.is_valid():
+                user = form.save(commit=False)
+                password = form.cleaned_data.get('password')
+                if password:
+                    user.set_password(password)  # Usa set_password para manejar el hashing de la contraseña
+                user.save()
+                return redirect('perfil')
+        else:
+            return redirect('iniciar_sesion')
+    else:
+        if 'cliente_id' in request.session:
+            user = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+            form = UpdateProfileForm(instance=user)
+        else:
+            return redirect('iniciar_sesion')
+    
+    context = {
+        'form': form,
+        'nombre_usuario': request.session.get('nombre_usuario', None),
+    }
+    return render(request, 'alumnos/update_profile.html', context)
+    
 def index(request):
     clientes = Cliente.objects.all()
     categorias = Categoria.objects.all()
@@ -93,7 +114,6 @@ def registrarse(request):
         correo = request.POST.get('correo')
         contrasena = request.POST.get('contrasena')
         
-        # Validaciones adicionales
         usuario = Cliente(nombre=nombre, correo=correo, contrasena=contrasena)
         usuario.save()
     context = {
@@ -101,6 +121,7 @@ def registrarse(request):
         'nombre_usuario': nombre_usuario
     }
     return render(request, 'alumnos/registrarse.html', context)
+
 
 def catalogo(request):
     productos = Producto.objects.all()
@@ -122,6 +143,7 @@ def catalogo(request):
     }
     return render(request, 'alumnos/catalogo.html', context)
 
+
 def reparaciones(request):
     clientes = Cliente.objects.all()
     nombre_usuario = None
@@ -142,8 +164,7 @@ def reparaciones(request):
         # Obtener el cliente desde la sesión
         cliente_id = request.session.get('cliente_id')
         if not cliente_id:
-            return render(request,'alumnos/iniciar_sesion.html')
-        
+            return render(request, 'alumnos/iniciar_sesion.html')
         
         cliente = Cliente.objects.get(id_cliente=cliente_id)
         
@@ -163,21 +184,13 @@ def reparaciones(request):
         'clientes': clientes,
         'nombre_usuario': nombre_usuario
     }
-    return render(request, 'alumnos/reparaciones.html',context)
+    return render(request, 'alumnos/reparaciones.html', context)
+
 
 def cerrar_sesion(request):
     logout(request)
     return redirect('index')
 
-def perfil(request):
-    clientes = Cliente.objects.all()
-    nombre_usuario = None
-    if 'cliente_id' in request.session:
-        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
-        nombre_usuario = cliente.nombre
-    context = {'clientes': clientes,
-        'nombre_usuario': nombre_usuario}
-    return render(request, 'alumnos/perfil.html', context)
 
 def arrendar(request, pk):
     clientes = Cliente.objects.all()
@@ -237,6 +250,7 @@ def arrendar(request, pk):
         'tipo_bici': tipo_bici,
     }
     return render(request, 'alumnos/arrendar.html', context)
+
 
 def agregar_al_carrito(request, producto_id):
     if 'cliente_id' not in request.session:
