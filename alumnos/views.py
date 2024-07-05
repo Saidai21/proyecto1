@@ -11,6 +11,10 @@ from django.contrib.auth.models import User
 from .forms import UpdateProfileForm
 
 @login_required
+def perfil(request):
+    return render(request, 'alumnos/perfil.html', {'user': request.user})
+
+@login_required
 def update_profile(request):
     user = request.user
     if request.method == 'POST':
@@ -21,14 +25,10 @@ def update_profile(request):
             if password:
                 user.set_password(password)
             user.save()
-            return redirect('perfil')  # Redirigir a la página de perfil después de actualizar
+            return redirect('perfil') 
     else:
         form = UpdateProfileForm(instance=user)
-    
     return render(request, 'alumnos/update_profile.html', {'form': form})
-
-def perfil(request):
-    return render(request, 'alumnos/perfil.html')
 
 def index(request):
     clientes = Cliente.objects.all()

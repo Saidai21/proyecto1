@@ -16,5 +16,5 @@ urlpatterns = [
     path('eliminar-del-carrito/<int:item_id>/', eliminar_del_carrito, name='eliminar_del_carrito'),
     path('ver_carrito/', views.ver_carrito, name='ver_carrito'),
     path('arrendar/<str:pk>', views.arrendar, name="arrendar"),
-    path('update_profile', views.update_profile, name='update_profile'),
+    path('update_profile', views.update_profile, name='update_profile'),  
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_URL)
