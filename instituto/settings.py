@@ -101,6 +101,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'alumnos.backends.EmailBackend',  # Asegúrate de reemplazar 'myapp' con el nombre correcto de tu aplicación
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
