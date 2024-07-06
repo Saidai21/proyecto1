@@ -29,6 +29,20 @@
     display: none;
 }
 
+#mensajeContrasena2{
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    display: none;
+}
+
+#mensajeContrasena3{
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    display: none;
+}
+
 .form_cont{
     background-color: white;
     padding: 25px;

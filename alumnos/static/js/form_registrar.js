@@ -4,6 +4,7 @@ $(document).ready(function(){
       var nombre = $("#itNombre").val();
       var correo = $("#itCorreo").val();
       var contrasena = $("#itContrasena").val();
+      var contrasena2 = $("#itContrasena2").val();
       var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       
       if(!emailRegex.test(correo)){
@@ -44,6 +45,27 @@ $(document).ready(function(){
       } else {
           $("#itContrasena").css("border-color", "#ced4da");
           $("#mensajeContrasena").fadeOut();
+      }
+
+      if(contrasena2!=""){
+        if(contrasena2 != contrasena){
+            $("#itContrasena2").css("border-color", "red");
+            $("#mensajeContrasena2").fadeIn();
+            $("#mensajeContrasena3").fadeOut();
+            valcor = false;
+            event.preventDefault();
+        } else {
+            $("#itContrasena2").css("border-color", "#ced4da");
+            $("#mensajeContrasena2").fadeOut();
+            $("#mensajeContrasena3").fadeOut();
+        }
+      }else if(contrasena2 == ""){
+        $("#itContrasena2").css("border-color", "red");
+        $("#mensajeContrasena3").fadeIn();
+        event.preventDefault();
+      }else{
+        $("#itContrasena2").css("border-color", "#ced4da");
+        $("#mensajeContrasena3").fadeOut();
       }
 
       if (!valcor) {

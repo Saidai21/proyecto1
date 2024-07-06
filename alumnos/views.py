@@ -25,6 +25,9 @@ def perfil(request):
 
 
 def update_profile(request):
+    if 'cliente_id' in request.session:
+        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+        nombre_usuario = cliente.nombre
     if request.method == 'POST':
         if 'cliente_id' in request.session:
             user = Cliente.objects.get(id_cliente=request.session['cliente_id'])
@@ -47,7 +50,7 @@ def update_profile(request):
     
     context = {
         'form': form,
-        'nombre_usuario': request.session.get('nombre_usuario', None),
+        'nombre_usuario': nombre_usuario,
     }
     return render(request, 'alumnos/update_profile.html', context)
     
