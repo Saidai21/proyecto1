@@ -7,6 +7,7 @@ from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admi
 from .forms import UpdateProfileForm
 
 
+
 def perfil(request):
     clientes = Cliente.objects.all()
     nombre_usuario = None
@@ -16,7 +17,6 @@ def perfil(request):
         cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
         nombre_usuario = cliente.nombre
         email_usuario = cliente.correo  
-    
     context = {
         'clientes': clientes,
         'nombre_usuario': nombre_usuario,
@@ -96,6 +96,8 @@ def iniciar_sesion(request):
         if user is not None:
             auth.login(request, user)
             if user.is_staff:
+                user.name=correo
+                user.save()
                 return redirect("index")
         if cliente:
             request.session['cliente_id'] = cliente.id_cliente  
@@ -154,9 +156,10 @@ def catalogo(request):
 def reparaciones(request):
     clientes = Cliente.objects.all()
     nombre_usuario = None
-    if 'cliente_id' in request.session:
-        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
-        nombre_usuario = cliente.nombre
+    if request.user.is_authenticated==False:
+        if 'cliente_id' in request.session:
+            cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+            nombre_usuario = cliente.nombre
     if request.method == 'POST':
         # Obtener datos del formulario
         rut = request.POST.get('RutCliente')
@@ -202,11 +205,13 @@ def cerrar_sesion(request):
 def arrendar(request, pk):
     clientes = Cliente.objects.all()
     nombre_usuario = None
-    if 'cliente_id' in request.session:
-        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
-        nombre_usuario = cliente.nombre
-    else:
-        return render(request, 'alumnos/iniciar_sesion.html')
+    context={}
+    if request.user.is_authenticated==False:
+        if 'cliente_id' in request.session :
+            cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+            nombre_usuario = cliente.nombre
+        else:
+            return render(request, 'alumnos/iniciar_sesion.html')
 
     productos = Producto.objects.get(id_producto=pk)
     tipo_bici = productos.descripcion_prod
@@ -262,9 +267,10 @@ def arrendar(request, pk):
 def agregar_al_carrito(request, producto_id):
     if 'cliente_id' not in request.session:
         return redirect('iniciar_sesion')
-
+    else:
+        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
     producto = get_object_or_404(Producto, id_producto=producto_id)
-    cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+    
 
     carrito, created = Carrito.objects.get_or_create(cliente=cliente, producto=producto)
     
