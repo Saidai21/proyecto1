@@ -5,7 +5,7 @@
     <div class="form_cont">
         <span class="text-center formato_titulo_form">Perfil</span>
         <br>
-        {% if nombre_usuario != None and request.user.is_authenticades == False %}
+        {% if nombre_usuario != None and user.is_staff == False %}
         <div class="form-group">
             <label for="id_username"><strong>Nombre de usuario:</strong></label>
             <label>{{ nombre_usuario }}</label>
