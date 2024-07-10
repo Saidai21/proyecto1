@@ -39,7 +39,7 @@ def update_profile(request):
                 if password:
                     user.set_password(password)  # Usa set_password para manejar el hashing de la contraseña
                 user.save()
-                return redirect('perfil')
+                return redirect('cerrar_sesion')
         else:
             return redirect('iniciar_sesion')
     else:
