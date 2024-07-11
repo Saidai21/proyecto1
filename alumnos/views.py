@@ -212,9 +212,9 @@ def reparaciones(request):
             estado=estado,
             usuario=cliente
         )
-        
+        messages.success(request, 'Solicitud enviada')
         reparacion.save()
-        return redirect('index')
+        return redirect('reparaciones')
     context = {
         'clientes': clientes,
         'nombre_usuario': nombre_usuario
@@ -279,6 +279,7 @@ def arrendar(request, pk):
             deposito_garantia=deposito_garantia
         )
         arriendo.save()
+        messages.success(request, 'Solicitud enviada')
         return redirect('index')  # Redirigir a la página de inicio
 
     context = {

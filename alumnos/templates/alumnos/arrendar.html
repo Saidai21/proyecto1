@@ -55,13 +55,40 @@
       </form>
   </div>
 
+  <!-- Modal de éxito -->
+  <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="successModalLabel">Éxito</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  Solicitud enviada
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script>
       function calcularGarantia() {
           var periodo = document.getElementById('periodoArriendo').value;
           var garantia = periodo * 5000; // Ajusta el valor de la garantía por día según tus necesidades
           document.getElementById('depositoGarantia').value = garantia;
       }
+
+      $(document).ready(function() {
+          {% if messages %}
+              $('#successModal').modal('show');
+          {% endif %}
+      });
   </script>
   {% load static %}
   <script src="{% static 'js/arrendar.js' %}"></script>
