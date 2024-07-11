@@ -4,8 +4,8 @@
     <!-- FORMULARIO -->
     <div class="container-sm">
         <div class="form_cont">
-            {% if messages %}   
-            <div class="alert alert-success">
+            {% if messages %}
+            <div class="alert alert-danger">
                 {% for message in messages %}
                 <p>{{ message }}</p>
                 {% endfor %}
@@ -13,32 +13,31 @@
             {% endif %}
             <form method="POST" action="{% url 'iniciar_sesion' %}">
                 {% csrf_token %}
-                <span class="text-center formato_titulo_form">INICIAR SESION</span>
+                <span class="text-center formato_titulo_form">INICIAR SESIÓN</span>
                 <div class="form-group">
                     <label for="correo">Correo</label>
-                    <input type="text" class="form-control" id="correo" name="correo" placeholder="name@example.com" >
-                    <div class="text-center" id="mensajeCorreo">
+                    <input type="text" class="form-control" id="correo" name="correo" placeholder="name@example.com">
+                    <div class="text-center text-danger" id="mensajeCorreo" style="display:none;">
                         Rellene este campo
                     </div>
-                    <div class="text-center" id="mensajeCorreo2">
-                        Correo invalido
+                    <div class="text-center text-danger" id="mensajeCorreo2" style="display:none;">
+                        Correo inválido
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="contrasena">Contraseña</label>
-                    <input type="password" class="form-control" id="contrasena" name="contrasena" >
-                    <div class="text-center" id="mensajeContrasena">
+                    <input type="password" class="form-control" id="contrasena" name="contrasena">
+                    <div class="text-center text-danger" id="mensajeContrasena" style="display:none;">
                         Ingrese una contraseña
                     </div>
                 </div>
                 <div><label for="formGroupExampleInput">¿No tienes cuenta?</label>
-                    <a class="label" href="{% url 'registrarse' %}" style="color: blue;">registrate</a>
+                    <a class="label" href="{% url 'registrarse' %}" style="color: blue;">Regístrate</a>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" id="enviar">ENVIAR</button>
             </form>
         </div>
     </div>
-    {% load static %}
     <script src="{% static 'js/form_iniciar.js' %}"></script>
 {% endblock %}

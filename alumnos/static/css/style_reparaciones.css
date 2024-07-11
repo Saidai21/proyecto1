@@ -19,7 +19,7 @@ input, textarea {
     box-sizing: border-box;
 }
 .container-reparacion{
-    background-color: rgba(255, 255, 255, 0.116);
+    background-color: rgba(255, 255, 255,1);
     border-radius: 5%;
     padding: 20px;
 } 

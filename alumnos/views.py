@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.utils.dateparse import parse_datetime
 from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo, Carrito
 from .forms import UpdateProfileForm
+from django.contrib import messages
 
 
 
@@ -84,29 +85,31 @@ def index(request):
 def iniciar_sesion(request):
     clientes = Cliente.objects.all()
     nombre_usuario = None
-    user=None
+    user = None
     if 'cliente_id' in request.session:
         cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
         nombre_usuario = cliente.nombre
     if request.method == 'POST':
         correo = request.POST['correo']
         contrasena = request.POST['contrasena']
-        user=auth.authenticate(username=correo,password=contrasena)
+        user = auth.authenticate(username=correo, password=contrasena)
         cliente = Cliente.objects.filter(correo=correo, contrasena=contrasena).first()
         if user is not None:
             auth.login(request, user)
             if user.is_staff:
-                user.name=correo
+                user.name = correo
                 user.save()
                 return redirect("index")
         if cliente:
-            request.session['cliente_id'] = cliente.id_cliente  
+            request.session['cliente_id'] = cliente.id_cliente
             request.session['nombre'] = cliente.nombre
             return redirect('index')
+        else:
+            messages.error(request, 'Correo o contraseña incorrectos.')
     context = {
         'clientes': clientes,
         'nombre_usuario': nombre_usuario,
-        'user':user
+        'user': user
     }
     return render(request, 'alumnos/iniciar_sesion.html', context)
 
