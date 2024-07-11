@@ -1,61 +1,50 @@
 {% extends "alumnos/base.html" %}
 {% block content %}
-    <div class="container-sm">
-        <div class="form_cont">
-            <!-- FORM -->
-            <form action="{% url 'registrarse' %}" method="POST">
-                {% csrf_token %}
-                <span class="text-center formato_titulo_form">REGISTRARSE</span>
-                <br>
-                <div id="mensajeSuccess" class="alert alert-success">
-                    REGISTRADO EXITOSAMENTE
+<div class="container-sm">
+    <div class="form_cont">
+        <!-- FORM -->
+        <form action="{% url 'registrarse' %}" method="POST">
+            {% csrf_token %}
+            <span class="text-center formato_titulo_form">REGISTRARSE</span>
+            <br>
+            {% if messages %}
+                <div class="alert alert-danger">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
                 </div>
-                <div class="form-group">
-                    <label for="itCorreo">Correo</label>
-                    <input type="text" class="form-control" id="itCorreo" name="correo" placeholder="name@example.com">
-                    <div id="mensajeCorreo">Ingrese un correo</div>
-                    <div id="mensajeCorreo2">Ingrese un correo válido</div>
-                </div>
-                <div class="form-group">
-                    <label for="itNombre">Nombre</label>
-                    <input type="text" class="form-control" id="itNombre" name="nombre" placeholder="Nombre">
-                    <div id="mensajeNombre">Ingrese Nombre</div>
-                </div>
-                <div class="form-group">
-                    <label for="itContrasena">Contraseña</label>
-                    <input type="password" class="form-control" id="itContrasena" name="contrasena">
-                    <div id="mensajeContrasena">Ingrese una contraseña</div>
-                </div>
-                <div class="form-group">
-                    <label for="itContrasena">Confirmar Contraseña</label>
-                    <input type="password" class="form-control" id="itContrasena2" name="contrasena">
-                    <div id="mensajeContrasena2" class="text-center">Las contraseñas no coinciden</div>
-                    <div id="mensajeContrasena3" class="text-center">Ingrese una contraseña</div>
-                </div>
-                <div><label for="formGroupExampleInput">¿Ya tienes cuenta?</label>
+            {% endif %}
+            <div class="form-group">
+                <label for="itCorreo">Correo</label>
+                <input type="text" class="form-control" id="itCorreo" name="correo" placeholder="name@example.com">
+                <div id="mensajeCorreo">Ingrese un correo</div>
+                <div id="mensajeCorreo2">Ingrese un correo válido</div>
+            </div>
+            <div class="form-group">
+                <label for="itNombre">Nombre</label>
+                <input type="text" class="form-control" id="itNombre" name="nombre" placeholder="Nombre">
+                <div id="mensajeNombre">Ingrese Nombre</div>
+            </div>
+            <div class="form-group">
+                <label for="itContrasena">Contraseña</label>
+                <input type="password" class="form-control" id="itContrasena" name="contrasena">
+                <div id="mensajeContrasena">Ingrese una contraseña</div>
+            </div>
+            <div class="form-group">
+                <label for="itContrasena2">Confirmar Contraseña</label>
+                <input type="password" class="form-control" id="itContrasena2" name="contrasena2">
+                <div id="mensajeContrasena2" class="text-center">Las contraseñas no coinciden</div>
+                <div id="mensajeContrasena3" class="text-center">Ingrese una contraseña</div>
+            </div>
+            <div><label for="formGroupExampleInput">¿Ya tienes cuenta?</label>
                 <a class="label" href="{% url 'iniciar_sesion' %}" style="color: blue;">Inicia sesion</a>
             </div>
-                <button type="submit" class="btn btn-primary" id="enviar">ENVIAR</button>
-            </form>
-        </div>
+            <button type="submit" class="btn btn-primary" id="enviar">ENVIAR</button>
+        </form>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Registro completado</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">Registrado exitosamente</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- SCRIPTS -->
-     {% load static %}
-     <script src="{% static 'js/form_registrar.js' %}"></script>
+</div>
+<!-- SCRIPTS -->
+{% load static %}
+<script src="{% static 'js/form_registrar.js' %}"></script>
+
 {% endblock %}

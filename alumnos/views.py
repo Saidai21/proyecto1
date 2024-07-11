@@ -117,17 +117,39 @@ def iniciar_sesion(request):
 def registrarse(request):
     clientes = Cliente.objects.all()
     nombre_usuario = None
+    
+    # Verificar si el usuario ya está registrado
     if 'cliente_id' in request.session:
-        cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
-        nombre_usuario = cliente.nombre
+        cliente_id = request.session['cliente_id']
+        if Cliente.objects.filter(id_cliente=cliente_id).exists():
+            messages.error(request, 'Ya estás registrado como usuario.')
+            return redirect('iniciar_sesion')  # Redirigir al inicio de sesión si ya está registrado
     
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         correo = request.POST.get('correo')
         contrasena = request.POST.get('contrasena')
+        contrasena2 = request.POST.get('contrasena2')  # Confirmación de contraseña
         
+        # Validación de campos
+        if not nombre or not correo or not contrasena or not contrasena2:
+            messages.error(request, 'Todos los campos son obligatorios.')
+            return render(request, 'alumnos/registrarse.html', {'clientes': clientes, 'nombre_usuario': nombre_usuario})
+
+        if contrasena != contrasena2:
+            messages.error(request, 'Las contraseñas no coinciden.')
+            return render(request, 'alumnos/registrarse.html', {'clientes': clientes, 'nombre_usuario': nombre_usuario})
+
+        # Verificar si el correo ya está registrado
+        if Cliente.objects.filter(correo=correo).exists():
+            messages.error(request, 'El correo electrónico ya está registrado.')
+            return render(request, 'alumnos/registrarse.html', {'clientes': clientes, 'nombre_usuario': nombre_usuario})
+
+        # Crear y guardar el usuario
         usuario = Cliente(nombre=nombre, correo=correo, contrasena=contrasena)
         usuario.save()
+        return redirect('iniciar_sesion')
+    
     context = {
         'clientes': clientes,
         'nombre_usuario': nombre_usuario
