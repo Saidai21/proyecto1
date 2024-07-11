@@ -6,6 +6,7 @@ from django.utils.dateparse import parse_datetime
 from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo, Carrito, Bicicleta, SolicitudReparacion
 from .forms import UpdateProfileForm, BicicletaForm, SolicitudReparacionForm
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 def lista_solicitudes(request):
@@ -27,8 +28,13 @@ def nueva_solicitud_reparacion(request):
     return render(request, 'nueva_solicitud_reparacion.html', {'form': form})
 
 def bicicleta_list(request):
-    bicicletas = Producto.objects.all()
-    return render(request, 'alumnos/bicicleta_list.html', {'bicicletas': bicicletas})
+    bicicletas_list = Producto.objects.all()
+    paginator = Paginator(bicicletas_list, 5)  # Mostrar 10 bicicletas por página
+
+    page_number = request.GET.get('page')
+    bicicletas = paginator.get_page(page_number)
+
+    return render(request, 'alumnos/bicileta_list.html', {'bicicletas': bicicletas})
 
 def bicicleta_create(request):
     if request.method == 'POST':

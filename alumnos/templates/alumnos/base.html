@@ -27,18 +27,22 @@
           <li class="nav-item active">
             <a class="btn" href="/">INICIO<span class="sr-only">(current)</span></a>
           </li>
+          {% if user == None or user.is_staff == False %}
           <li class="nav-item active">
             <a class="btn" href="{% url 'reparaciones' %}">REPARACIONES</a>
           </li>
+          {% endif %}
           <li class="nav-item active">
             <a class="btn" href="{% url 'catalogo' %}">CATALOGO</a>
           </li>
+          {% if user.is_staff %}
           <li class="nav-item active">
             <a class="btn" href="{% url 'bicicleta_list' %}">CRUD</a>
           </li>
           <li class="nav-item active">
             <a class="btn" href="{% url 'solicitudes' %}">SOLICITUDES</a>
           </li>
+          {% endif %}
         </ul>
         <ul class="navbar-nav ml-auto">
           {% if nombre_usuario != None and request.user.is_authenticated == False %}
@@ -56,16 +60,6 @@
               <a class="btn" href="{% url 'cerrar_sesion' %}">CERRAR SESION</a>
             </li>
           {% elif user.is_staff %}
-          {% comment %} CRUD {% endcomment %}
-          <li class="nav-item active">
-            <a class="btn " href="{% url 'perfil' %}">Listado de productos</a>
-          </li>
-          {% comment %} CRUD {% endcomment %}
-          {% comment %} SOLICITUDES {% endcomment %}
-          <li class="nav-item active">
-            <a class="btn " href="{% url 'perfil' %}">Listado de solicitudes</a>
-          </li>
-          {% comment %} SOLICITUDES {% endcomment %}
           <li class="nav-item active">
             <a class="btn " href="{% url 'perfil' %}">{{user}}</a>
           </li>
