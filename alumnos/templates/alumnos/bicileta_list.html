@@ -1,0 +1,32 @@
+{% extends "alumnos/base.html" %}
+{% block content %}
+<div class="container bg-light rounded p-4 mt-4">
+    <h2>Listado de Bicicletas</h2>
+    <a href="{% url 'bicicleta_create' %}" class="btn btn-primary">Agregar Bicicleta</a>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Imagen</th>
+                <th>Precio</th>
+                <th>Categoria</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bicicleta in bicicletas %}
+                <tr>
+                    <td>{{ bicicleta.nombre_prod }}</td>
+                    <td><img src="{{ bicicleta.imagen.url }}" alt="{{ bicicleta.nombre_prod }}" height="50"></td>
+                    <td>{{ bicicleta.precio }}</td>
+                    <td>{{ bicicleta.categoria }}</td>
+                    <td>
+                        <a href="{% url 'bicicleta_update' bicicleta.pk %}" class="btn btn-warning">Editar</a>
+                        <a href="{% url 'bicicleta_delete' bicicleta.pk %}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

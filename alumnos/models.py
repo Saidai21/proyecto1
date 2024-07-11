@@ -1,5 +1,22 @@
 from django.db import models
 
+class Bicicleta(models.Model):
+    CATEGORIAS = [
+        ('Montaña', 'Montaña'),
+        ('BMX', 'BMX'),
+        ('Urbana', 'Urbana'),
+    ]
+    
+    nombre_prod = models.CharField(max_length=100)
+    imagen = models.ImageField(upload_to='bicicletas/')
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    categoria = models.CharField(max_length=50, choices=CATEGORIAS)
+
+    def __str__(self):
+        return self.nombre_prod
+
+
+
 class Cliente(models.Model):
     id_cliente = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
@@ -16,12 +33,13 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre_catg
 
+
 class Producto(models.Model):
     id_producto = models.AutoField(primary_key=True)
     nombre_prod = models.CharField(max_length=100)
     descripcion_prod = models.CharField(max_length=100)
     precio = models.IntegerField()
-    imagen = models.ImageField(default='',upload_to='images/')
+    imagen = models.ImageField(upload_to='images/')
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, db_column='id_categoria')
 
     def __str__(self):

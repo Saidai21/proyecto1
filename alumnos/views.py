@@ -3,9 +3,41 @@ from django.contrib.auth import logout
 from django.contrib import auth
 from django.http import JsonResponse
 from django.utils.dateparse import parse_datetime
-from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo, Carrito
-from .forms import UpdateProfileForm
+from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo, Carrito, Bicicleta
+from .forms import UpdateProfileForm, BicicletaForm
 from django.contrib import messages
+
+def bicicleta_list(request):
+    bicicletas = Producto.objects.all()
+    return render(request, 'alumnos/bicicleta_list.html', {'bicicletas': bicicletas})
+
+def bicicleta_create(request):
+    if request.method == 'POST':
+        form = BicicletaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('bicicleta_list')
+    else:
+        form = BicicletaForm()
+    return render(request, 'alumnos/bicicleta_form.html', {'form': form})
+
+def bicicleta_update(request, pk):
+    bicicleta = get_object_or_404(Producto, pk=pk)
+    if request.method == 'POST':
+        form = BicicletaForm(request.POST, request.FILES, instance=bicicleta)
+        if form.is_valid():
+            form.save()
+            return redirect('bicicleta_list')
+    else:
+        form = BicicletaForm(instance=bicicleta)
+    return render(request, 'alumnos/bicicleta_form.html', {'form': form})
+
+def bicicleta_delete(request, pk):
+    bicicleta = get_object_or_404(Producto, pk=pk)
+    if request.method == 'POST':
+        bicicleta.delete()
+        return redirect('bicicleta_list')
+    return render(request, 'alumnos/bicicleta_confirm_delete.html', {'bicicleta': bicicleta})
 
 
 
