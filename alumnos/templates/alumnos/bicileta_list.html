@@ -25,8 +25,38 @@
                         <a href="{% url 'bicicleta_delete' bicicleta.pk %}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No hay bicicletas disponibles.</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
+    
+    <div class="pagination">
+        <span class="step-links">
+            {% if bicicletas.has_previous %}
+                <button class="btn btn-info">
+                    <a href="?page=1" style="text-decoration: none;">&laquo; primero</a>
+                </button>
+                <button class="btn btn-info">
+                    <a href="?page={{ bicicletas.previous_page_number }}">anterior</a>
+                </button>
+            {% endif %}
+            
+            <span class="current">
+                Página {{ bicicletas.number }} de {{ bicicletas.paginator.num_pages }}.
+            </span>
+            
+            {% if bicicletas.has_next %}
+                <button class="btn btn-info">
+                    <a href="?page={{ bicicletas.next_page_number }}" style="text-decoration: none;">siguiente</a>
+                </button>
+                <button class="btn btn-info">
+                    <a href="?page={{ bicicletas.paginator.num_pages }}" style="text-decoration: none;">último &raquo;</a>
+                </button>
+            {% endif %}
+        </span>
+    </div>
 </div>
 {% endblock %}
