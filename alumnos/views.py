@@ -280,7 +280,7 @@ def arrendar(request, pk):
         )
         arriendo.save()
         messages.success(request, 'Solicitud enviada')
-        return redirect('index')  # Redirigir a la página de inicio
+        return render(request, 'alumnos/arrendar.html', context)  # Redirigir a la página de inicio
 
     context = {
         'clientes': clientes,
