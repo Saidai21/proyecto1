@@ -3,9 +3,28 @@ from django.contrib.auth import logout
 from django.contrib import auth
 from django.http import JsonResponse
 from django.utils.dateparse import parse_datetime
-from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo, Carrito, Bicicleta
-from .forms import UpdateProfileForm, BicicletaForm
+from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo, Carrito, Bicicleta, SolicitudReparacion
+from .forms import UpdateProfileForm, BicicletaForm, SolicitudReparacionForm
 from django.contrib import messages
+
+
+def lista_solicitudes(request):
+    solicitudes_reparacion = SolicitudReparacion.objects.all()
+    total_solicitudes = solicitudes_reparacion.count()
+    return render(request, 'alumnos/solicitudes.html', {
+        'solicitudes_reparacion': solicitudes_reparacion,
+        'total_solicitudes': total_solicitudes
+    })
+
+def nueva_solicitud_reparacion(request):
+    if request.method == 'POST':
+        form = SolicitudReparacionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_solicitudes')
+    else:
+        form = SolicitudReparacionForm()
+    return render(request, 'nueva_solicitud_reparacion.html', {'form': form})
 
 def bicicleta_list(request):
     bicicletas = Producto.objects.all()

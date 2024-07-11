@@ -1,6 +1,11 @@
 from django import forms
 from .models import Cliente
-from .models import Producto
+from .models import Producto, SolicitudReparacion
+
+class SolicitudReparacionForm(forms.ModelForm):
+    class Meta:
+        model = SolicitudReparacion
+        fields = '__all__'
 
 class BicicletaForm(forms.ModelForm):
     class Meta:

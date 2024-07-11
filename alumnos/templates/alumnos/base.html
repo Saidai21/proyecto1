@@ -36,6 +36,9 @@
           <li class="nav-item active">
             <a class="btn" href="{% url 'bicicleta_list' %}">CRUD</a>
           </li>
+          <li class="nav-item active">
+            <a class="btn" href="{% url 'solicitudes' %}">SOLICITUDES</a>
+          </li>
         </ul>
         <ul class="navbar-nav ml-auto">
           {% if nombre_usuario != None and request.user.is_authenticated == False %}

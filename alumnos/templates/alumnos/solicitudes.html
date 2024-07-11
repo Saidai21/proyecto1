@@ -1,0 +1,21 @@
+{% extends "alumnos/base.html" %}
+{% block content %}
+<div class="container bg-light rounded p-4 mt-4">
+    <h1 class="text-center">Solicitudes de Servicio de Reparación</h1>
+    <div id="contenedorSolicitudes" class="mt-3">
+        <h3>Solicitudes: {{ total_solicitudes }}</h3>
+    </div>
+    <ul id="listaSolicitudes" class="list-group mt-3">
+        {% for solicitud in solicitudes_reparacion %}
+            <li class="list-group-item">
+                <strong><u>Solicitud De Reparación</u> {{ forloop.counter }}</strong><br><br>
+                <b>Rut Cliente:</b> {{ solicitud.rut_cliente }}<br>
+                <b>Tipo De Servicio:</b> {{ solicitud.tipo_servicio }}<br>
+                <b>Fecha y Hora:</b> {{ solicitud.fecha_hora }}<br>
+                <b>Descripción Específica Del Problema:</b> {{ solicitud.descripcion_problema }}<br>
+                <b><i>------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</i></b><br>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

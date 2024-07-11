@@ -1,9 +1,9 @@
 from django.urls import path
 from django.conf.urls.static import static
 from . import views
-from .views import eliminar_del_carrito
+from .views import eliminar_del_carrito, bicicleta_list, bicicleta_create, bicicleta_update, bicicleta_delete
 from instituto import settings
-from .views import bicicleta_list, bicicleta_create, bicicleta_update, bicicleta_delete
+
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -22,4 +22,6 @@ urlpatterns = [
     path('bicicletas/new/', bicicleta_create, name='bicicleta_create'),
     path('bicicletas/<int:pk>/edit/', bicicleta_update, name='bicicleta_update'),
     path('bicicletas/<int:pk>/delete/', bicicleta_delete, name='bicicleta_delete'),
+    path('solicitudes/', views.lista_solicitudes, name='solicitudes'),
+    path('solicitudes/nueva_reparacion/', views.nueva_solicitud_reparacion, name='nueva_solicitud_reparacion'),
    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_URL)

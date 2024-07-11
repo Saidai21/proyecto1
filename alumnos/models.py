@@ -1,5 +1,11 @@
 from django.db import models
 
+class SolicitudReparacion(models.Model):
+    rut_cliente = models.CharField(max_length=12)
+    tipo_servicio = models.CharField(max_length=100)
+    fecha_hora = models.DateTimeField()
+    descripcion_problema = models.TextField()
+
 class Bicicleta(models.Model):
     CATEGORIAS = [
         ('Montaña', 'Montaña'),
