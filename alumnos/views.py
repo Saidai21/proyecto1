@@ -9,7 +9,7 @@ from django.contrib import messages
 
 def bicicleta_list(request):
     bicicletas = Producto.objects.all()
-    return render(request, 'alumnos/bicicleta_list.html', {'bicicletas': bicicletas})
+    return render(request, 'alumnos/bicileta_list.html', {'bicicletas': bicicletas})
 
 def bicicleta_create(request):
     if request.method == 'POST':
