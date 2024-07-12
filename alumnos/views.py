@@ -10,11 +10,14 @@ from django.core.paginator import Paginator
 
 
 def lista_solicitudes(request):
-    solicitudes_reparacion = Reparacion.objects.all()
-    total_solicitudes = solicitudes_reparacion.count()
+    solicitudes_list = Reparacion.objects.all()
+    paginator = Paginator(solicitudes_list, 3)  # Número de objetos por página
+    page_number = request.GET.get('page')
+    solicitudes_reparacion = paginator.get_page(page_number)
+    total_solicitudes = solicitudes_list.count()
     return render(request, 'alumnos/solicitudes.html', {
         'solicitudes_reparacion': solicitudes_reparacion,
-        'total_solicitudes': total_solicitudes
+        'total_solicitudes': total_solicitudes,
     })
 
 def nueva_solicitud_reparacion(request):

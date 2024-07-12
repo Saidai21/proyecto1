@@ -17,5 +17,23 @@
             </li>
         {% endfor %}
     </ul>
+
+    <div class="pagination mt-3">
+        <span class="step-links">
+            {% if solicitudes_reparacion.has_previous %}
+                <a href="?page=1" class="btn btn-info" style="text-decoration: none;">&laquo; primero</a>
+                <a href="?page={{ solicitudes_reparacion.previous_page_number }}" class="btn btn-info" style="text-decoration: none;">anterior</a>
+            {% endif %}
+            
+            <span class="current">
+                Página {{ solicitudes_reparacion.number }} de {{ solicitudes_reparacion.paginator.num_pages }}.
+            </span>
+            
+            {% if solicitudes_reparacion.has_next %}
+                <a href="?page={{ solicitudes_reparacion.next_page_number }}" class="btn btn-info" style="text-decoration: none;">siguiente</a>
+                <a href="?page={{ solicitudes_reparacion.paginator.num_pages }}" class="btn btn-info" style="text-decoration: none;">último &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 </div>
 {% endblock %}

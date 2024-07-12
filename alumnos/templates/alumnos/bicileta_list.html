@@ -36,12 +36,12 @@
     <div class="pagination">
         <span class="step-links">
             {% if bicicletas.has_previous %}
-                <button class="btn btn-info">
-                    <a href="?page=1" style="text-decoration: none;">&laquo; primero</a>
-                </button>
-                <button class="btn btn-info">
-                    <a href="?page={{ bicicletas.previous_page_number }}">anterior</a>
-                </button>
+                <a href="?page=1" style="text-decoration: none;">
+                    <button class="btn btn-info">&laquo; primero</button>
+                </a>
+                <a href="?page={{ bicicletas.previous_page_number }}">
+                    <button class="btn btn-info">anterior</button>
+                </a>
             {% endif %}
             
             <span class="current">
@@ -49,12 +49,12 @@
             </span>
             
             {% if bicicletas.has_next %}
-                <button class="btn btn-info">
-                    <a href="?page={{ bicicletas.next_page_number }}" style="text-decoration: none;">siguiente</a>
-                </button>
-                <button class="btn btn-info">
-                    <a href="?page={{ bicicletas.paginator.num_pages }}" style="text-decoration: none;">último &raquo;</a>
-                </button>
+                <a href="?page={{ bicicletas.next_page_number }}" style="text-decoration: none;">
+                    <button class="btn btn-info">siguiente</button>
+                </a>
+                <a href="?page={{ bicicletas.paginator.num_pages }}" style="text-decoration: none;">
+                    <button class="btn btn-info">último &raquo;</button>
+                </a>
             {% endif %}
         </span>
     </div>
