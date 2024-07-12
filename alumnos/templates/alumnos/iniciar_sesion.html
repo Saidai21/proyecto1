@@ -4,13 +4,6 @@
     <!-- FORMULARIO -->
     <div class="container-sm">
         <div class="form_cont">
-            {% if messages %}
-            <div class="alert alert-danger">
-                {% for message in messages %}
-                <p>{{ message }}</p>
-                {% endfor %}
-            </div>
-            {% endif %}
             <form method="POST" action="{% url 'iniciar_sesion' %}">
                 {% csrf_token %}
                 <span class="text-center formato_titulo_form">INICIAR SESIÓN</span>

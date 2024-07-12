@@ -295,8 +295,9 @@ def arrendar(request, pk):
         if 'cliente_id' in request.session :
             cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
             nombre_usuario = cliente.nombre
+            context={"nombre_usuario":nombre_usuario}
         else:
-            return render(request, 'alumnos/iniciar_sesion.html')
+            return render(request, 'alumnos/iniciar_sesion.html',context)
 
     productos = Producto.objects.get(id_producto=pk)
     tipo_bici = productos.descripcion_prod
