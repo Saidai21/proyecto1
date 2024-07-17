@@ -32,6 +32,7 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
                         <p class="card-text precio" data-precio="{{ producto.precio }}">$ {{ producto.precio }}</p>
+                        {% if user.is_staff == False %}
                         <a href="{% url 'arrendar' pk=producto.id_producto %}">
                           <button class="btn btn-primary">
                             Arrendar
@@ -42,6 +43,7 @@
                             Agregar al carrito
                           </button>
                         </a>
+                        {% endif %}
                       </div>
                     </div>
                   </div>
@@ -62,6 +64,7 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
                         <p class="card-text precio" data-precio="{{ producto.precio }}">$ {{ producto.precio }}</p>
+                        {% if user.is_staff == False %}
                         <a href="{% url 'arrendar' pk=producto.id_producto %}">
                           <button class="btn btn-primary">
                             Arrendar
@@ -72,6 +75,7 @@
                             Agregar al carrito
                           </button>
                         </a>
+                        {% endif %}
                       </div>
                     </div>
                   </div>
@@ -92,6 +96,7 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre_prod }}</h5>
                         <p class="card-text precio" data-precio="{{ producto.precio }}">$ {{ producto.precio }}</p>
+                        {% if user.is_staff == False %}
                         <a href="{% url 'arrendar' pk=producto.id_producto %}">
                           <button class="btn btn-primary">
                             Arrendar
@@ -102,6 +107,7 @@
                             Agregar al carrito
                           </button>
                         </a>
+                        {% endif %}
                       </div>
                     </div>
                   </div>
