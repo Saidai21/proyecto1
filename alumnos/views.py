@@ -10,6 +10,8 @@ from django.core.paginator import Paginator
 
 
 def lista_solicitudes(request):
+    if request.user.is_staff == False:
+        return redirect(index)
     solicitudes_list = Reparacion.objects.all()
     paginator = Paginator(solicitudes_list, 3)  # Número de objetos por página
     page_number = request.GET.get('page')
@@ -21,6 +23,8 @@ def lista_solicitudes(request):
     })
 
 def nueva_solicitud_reparacion(request):
+    if request.user.is_staff == False:
+        return redirect(index)
     if request.method == 'POST':
         form = SolicitudReparacionForm(request.POST)
         if form.is_valid():
@@ -31,6 +35,8 @@ def nueva_solicitud_reparacion(request):
     return render(request, 'nueva_solicitud_reparacion.html', {'form': form})
 
 def bicicleta_list(request):
+    if request.user.is_staff == False:
+        return redirect(index)
     bicicletas_list = Producto.objects.all()
     paginator = Paginator(bicicletas_list, 5)  # Mostrar 10 bicicletas por página
 
@@ -40,6 +46,8 @@ def bicicleta_list(request):
     return render(request, 'alumnos/bicileta_list.html', {'bicicletas': bicicletas})
 
 def bicicleta_create(request):
+    if request.user.is_staff == False:
+        return redirect(index)
     if request.method == 'POST':
         form = BicicletaForm(request.POST, request.FILES)
         if form.is_valid():
@@ -50,6 +58,8 @@ def bicicleta_create(request):
     return render(request, 'alumnos/bicicleta_form.html', {'form': form})
 
 def bicicleta_update(request, pk):
+    if request.user.is_staff == False:
+        return redirect(index)
     bicicleta = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
         form = BicicletaForm(request.POST, request.FILES, instance=bicicleta)
@@ -61,6 +71,8 @@ def bicicleta_update(request, pk):
     return render(request, 'alumnos/bicicleta_form.html', {'form': form})
 
 def bicicleta_delete(request, pk):
+    if request.user.is_staff == False:
+        return redirect(index)
     bicicleta = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
         bicicleta.delete()
