@@ -51,7 +51,7 @@
           </div>
 
           <!-- Botón de Enviar -->
-          <button type="submit" class="btn btn-primary" id="Enviar">Enviar Solicitud</button>
+          <button type="submit" class="btn btn-primary" id="Enviar" >Enviar Solicitud</button>
       </form>
   </div>
 
@@ -84,10 +84,6 @@
           document.getElementById('depositoGarantia').value = garantia;
       }
 
-      $(document).ready(function() {
-          {% if messages %}
-              $('#successModal').modal('show');
-          {% endif %}
       });
   </script>
   {% load static %}
