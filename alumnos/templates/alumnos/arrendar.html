@@ -3,6 +3,11 @@
   <div class="container-sm container-reparacion">
       <h1 class="text-center">SOLICITUD DE ARRIENDO</h1>
       <form method="post" action="">
+        {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
           {% csrf_token %}
           <div class="form-group">
               <label for="nombreCliente">Nombre del Cliente</label>
@@ -78,13 +83,16 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script>
-      function calcularGarantia() {
-          var periodo = document.getElementById('periodoArriendo').value;
-          var garantia = periodo * 5000; // Ajusta el valor de la garantía por día según tus necesidades
-          document.getElementById('depositoGarantia').value = garantia;
-      }
-
-      });
+    function calcularGarantia() {
+        var periodo = document.getElementById('periodoArriendo').value;
+        var garantia = periodo * 5000; // Ajusta el valor de la garantía por día según tus necesidades
+        document.getElementById('depositoGarantia').value = garantia;
+    }
+  
+    // Ejecuta la función calcularGarantia cuando el elemento 'periodoArriendo' cambie
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('periodoArriendo').addEventListener('input', calcularGarantia);
+    });
   </script>
   {% load static %}
   <script src="{% static 'js/arrendar.js' %}"></script>

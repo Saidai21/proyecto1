@@ -1,88 +1,90 @@
-{% extends "alumnos/base.html" %}
+{% extends 'alumnos/base.html' %}
 {% block content %}
-    <!-- REPARACIONES -->
-    <div id="logo_carrito">
-      <a href=""><img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="" class="img-fluid" id="imagen_carrito" /></a>
-    </div>
-    <div class="container-sm container-reparacion">
-      <h1 class="text-center titulo-reparacion">Solicitud de Servicio de Reparación</h1>
-      <form method="post">
-        {% csrf_token %}
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="RutCliente">Rut Cliente</label>
-            <input type="text" class="form-control" id="RutCliente" name="RutCliente" placeholder="Sin puntos y con guión"  />
-            <div id="mensajeRut" class="text-center">
-              <span class="mensajError">Error, rut invalido</span>
-            </div>
-            <div id="mensajeRut2" class="text-center">
-              <span class="mensajError">Error, ingrese un rut</span>
-            </div>
+  <!-- REPARACIONES -->
+  <div id="logo_carrito">
+    <a href=""><img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="" class="img-fluid" id="imagen_carrito" /></a>
+  </div>
+  <div class="container-sm container-reparacion">
+    <h1 class="text-center titulo-reparacion">Solicitud de Servicio de Reparación</h1>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+          <label for="RutCliente">Rut Cliente</label>
+          <input type="text" class="form-control" id="RutCliente" name="RutCliente" placeholder="Sin puntos y con guión" />
+          <div id="mensajeRut" class="text-center">
+            <span class="mensajError">Error, rut invalido</span>
+          </div>
+          <div id="mensajeRut2" class="text-center">
+            <span class="mensajError">Error, ingrese un rut</span>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-12">
-              <label for="Combobox">Tipo De Servicio</label>
-              <select id="Combobox" class="form-control" name="Combobox">
-                  <option value="" disabled selected>Selecciona un servicio</option>
-                  <option value="Mantenciones Generales">Mantenciones Generales</option>
-                  <option value="Cambio de rueda">Cambio de rueda</option>
-                  <option value="Lubricaciones">Lubricaciones</option>
-                  <option value="Cadena">Cadena</option>
-                  <option value="Amortiguadores">Amortiguadores</option>
-                  <option value="Asiento">Asiento</option>
-                  <option value="Pintura">Pintura</option>
-              </select>
-              <div class="text-center" id="mensajeCombo">
-                  <span class="mensajError">Eliga un tipo de servicio</span>
-              </div>
-          </div>
       </div>
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="fecha">Fecha y Hora:</label>
-            <input type="datetime-local" id="fecha" name="fecha"  />
-            <div class="text-center" id="mensajeFecha">
-              <span class="mensajError">Ingrese una fecha</span>
-            </div>
-            <div class="text-center" id="mensajeFecha2" style="display:none">
-              <span class="mensajError">Fecha Invalida</span>
-            </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="Combobox">Tipo De Servicio</label>
+          <select id="Combobox" class="form-control" name="Combobox">
+            <option value="" disabled selected>Selecciona un servicio</option>
+            <option value="Mantenciones Generales">Mantenciones Generales</option>
+            <option value="Cambio de rueda">Cambio de rueda</option>
+            <option value="Lubricaciones">Lubricaciones</option>
+            <option value="Cadena">Cadena</option>
+            <option value="Amortiguadores">Amortiguadores</option>
+            <option value="Asiento">Asiento</option>
+            <option value="Pintura">Pintura</option>
+          </select>
+          <div class="text-center" id="mensajeCombo">
+            <span class="mensajError">Eliga un tipo de servicio</span>
           </div>
         </div>
-        <div class="form-group">
-          <label for="problema">Descripción Específica Del Problema:</label>
-          <textarea id="problema" name="problema" rows="4" class="form-control" ></textarea>
-          <div class="text-center" id="mensajeProb">
-            <span class="mensajError">Ingrese la descripcion del problema</span>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="fecha">Fecha y Hora:</label>
+          <input type="datetime-local" id="fecha" name="fecha" />
+          <div class="text-center" id="mensajeFecha">
+            <span class="mensajError">Ingrese una fecha</span>
+          </div>
+          <div class="text-center" id="mensajeFecha2" style="display:none">
+            <span class="mensajError">Fecha Invalida</span>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary" id="Enviar">Enviar Solicitud</button>
-      </form>
-    </div>
-
-    <!-- Modal de éxito -->
-    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Éxito</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Solicitud enviada
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
+      </div>
+      <div class="form-group">
+        <label for="problema">Descripción Específica Del Problema:</label>
+        <textarea id="problema" name="problema" rows="4" class="form-control"></textarea>
+        <div class="text-center" id="mensajeProb">
+          <span class="mensajError">Ingrese la descripcion del problema</span>
         </div>
-    </div>
+      </div>
+      <button type="submit" class="btn btn-primary" id="Enviar">Enviar Solicitud</button>
+    </form>
+  </div>
 
-    {% load static %}
-    <script src="{% static 'js/reparaciones.js' %}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <!-- Modal de éxito -->
+  <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="successModalLabel">Éxito</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">Solicitud enviada</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% load static %}
+  <script src="{% static 'js/reparaciones.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 {% endblock %}

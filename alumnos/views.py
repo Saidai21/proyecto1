@@ -255,7 +255,7 @@ def catalogo(request):
     return render(request, 'alumnos/catalogo.html', context)
 
 
-def reparaciones(request):
+def reparaciones(request):  
     clientes = Cliente.objects.all()
     nombre_usuario = None
     if request.user.is_authenticated==False:

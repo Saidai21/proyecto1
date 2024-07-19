@@ -7,6 +7,13 @@
             <form method="POST" action="{% url 'iniciar_sesion' %}">
                 {% csrf_token %}
                 <span class="text-center formato_titulo_form">INICIAR SESIÓN</span>
+                {% if messages %}
+                <div class="alert alert-danger">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
                 <div class="form-group">
                     <label for="correo">Correo</label>
                     <input type="text" class="form-control" id="correo" name="correo" placeholder="name@example.com">
