@@ -35,15 +35,20 @@ def nueva_solicitud_reparacion(request):
     return render(request, 'nueva_solicitud_reparacion.html', {'form': form})
 
 def bicicleta_list(request):
-    if request.user.is_staff == False:
-        return redirect(index)
-    bicicletas_list = Producto.objects.all()
-    paginator = Paginator(bicicletas_list, 5)  # Mostrar 10 bicicletas por página
-
+    if not request.user.is_staff:
+        return redirect('index')
+    
+    query = request.GET.get('q', '')
+    if query:
+        bicicletas = Producto.objects.filter(nombre_prod__icontains=query)
+    else:
+        bicicletas = Producto.objects.all()
+    
+    paginator = Paginator(bicicletas, 5)  # Mostrar 5 bicicletas por página
     page_number = request.GET.get('page')
-    bicicletas = paginator.get_page(page_number)
+    page_obj = paginator.get_page(page_number)
 
-    return render(request, 'alumnos/bicileta_list.html', {'bicicletas': bicicletas})
+    return render(request, 'alumnos/bicileta_list.html', {'bicicletas': page_obj, 'query': query})
 
 def bicicleta_create(request):
     if request.user.is_staff == False:
