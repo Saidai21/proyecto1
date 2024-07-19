@@ -1,0 +1,34 @@
+{% extends "alumnos/base.html" %}
+{% block content %}
+<div class="container bg-light rounded p-4 mt-4">
+    <h2>Listado de Boletas</h2>
+    <table class="table mt-3 table-responsive-lg">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for boleta in boletas %}
+                <tr>
+                    <td>{{ boleta.id }}</td>
+                    <td>{{ boleta.cliente }}</td>
+                    <td>{{ boleta.fecha }}</td>
+                    <td>{{ boleta.total }}</td>
+                    <td>
+                        <a href="{% url 'boleta_detail' boleta.id %}" class="btn btn-info">Ver Detalles</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No hay boletas disponibles.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

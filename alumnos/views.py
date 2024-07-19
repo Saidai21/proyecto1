@@ -450,3 +450,12 @@ def confirmar_compra(request):
         messages.error(request, f'Error al confirmar la compra: {str(e)}')
 
     return redirect('index')
+
+def boleta_list(request):
+    boletas = Boleta.objects.all()
+    return render(request, 'alumnos/boleta_list.html', {'boletas': boletas})
+
+def boleta_detail(request, boleta_id):
+    boleta = get_object_or_404(Boleta, id=boleta_id)
+    productos = BoletaProducto.objects.filter(boleta=boleta).select_related('producto')
+    return render(request, 'alumnos/boleta_detail.html', {'boleta': boleta, 'productos': productos})
