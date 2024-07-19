@@ -3,7 +3,7 @@ from django.contrib.auth import logout
 from django.contrib import auth
 from django.http import JsonResponse
 from django.utils.dateparse import parse_datetime
-from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo, Carrito, Bicicleta, SolicitudReparacion
+from .models import Cliente, Categoria, Producto, Factura, FacturaProducto, Admin, Reparacion, Estado, Arriendo, Carrito, Bicicleta, SolicitudReparacion,Boleta,BoletaProducto
 from .forms import UpdateProfileForm, BicicletaForm, SolicitudReparacionForm
 from django.contrib import messages
 from django.core.paginator import Paginator
