@@ -452,6 +452,8 @@ def confirmar_compra(request):
     return redirect('index')
 
 def boleta_list(request):
+    if not request.user.is_staff:
+        return redirect('index')
     boletas = Boleta.objects.all()
     paginator = Paginator(boletas, 5)  # Muestra 5 boletas por página
 
@@ -460,6 +462,8 @@ def boleta_list(request):
     return render(request, 'alumnos/boleta_list.html', {'page_obj': page_obj})
 
 def boleta_detail(request, boleta_id):
+    if not request.user.is_staff:
+        return redirect('index')
     boleta = get_object_or_404(Boleta, id=boleta_id)
     productos = BoletaProducto.objects.filter(boleta=boleta).select_related('producto')
     return render(request, 'alumnos/boleta_detail.html', {'boleta': boleta, 'productos': productos})
