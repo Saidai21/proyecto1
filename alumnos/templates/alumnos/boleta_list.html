@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for boleta in boletas %}
+            {% for boleta in page_obj %}
                 <tr>
                     <td>{{ boleta.id }}</td>
                     <td>{{ boleta.cliente }}</td>
@@ -30,5 +30,31 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <div class="pagination text-center mt-4">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" style="text-decoration: none;">
+                    <button class="btn btn-info">&laquo; primero</button>
+                </a>
+                <a href="?page={{ page_obj.previous_page_number }}">
+                    <button class="btn btn-info">anterior</button>
+                </a>
+            {% endif %}
+            
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" style="text-decoration: none;">
+                    <button class="btn btn-info">siguiente</button>
+                </a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" style="text-decoration: none;">
+                    <button class="btn btn-info">último &raquo;</button>
+                </a>
+            {% endif %}
+        </span>
+    </div>
 </div>
 {% endblock %}

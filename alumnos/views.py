@@ -453,7 +453,11 @@ def confirmar_compra(request):
 
 def boleta_list(request):
     boletas = Boleta.objects.all()
-    return render(request, 'alumnos/boleta_list.html', {'boletas': boletas})
+    paginator = Paginator(boletas, 5)  # Muestra 5 boletas por página
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'alumnos/boleta_list.html', {'page_obj': page_obj})
 
 def boleta_detail(request, boleta_id):
     boleta = get_object_or_404(Boleta, id=boleta_id)

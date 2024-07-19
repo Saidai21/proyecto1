@@ -4,7 +4,7 @@
     <h2>Detalles de la Boleta</h2>
     <div>
         <p><strong>ID Boleta:</strong> {{ boleta.id }}</p>
-        <p><strong>Cliente:</strong> {{ boleta.cliente.nombre }}</p>
+        <p><strong>Cliente:</strong> {{ boleta.cliente }}</p>
         <p><strong>Fecha:</strong> {{ boleta.fecha }}</p>
         <p><strong>Total:</strong> {{ boleta.total }}</p>
     </div>
@@ -19,12 +19,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for boleta_producto in productos %}
+            {% for producto in productos %}
                 <tr>
-                    <td>{{ boleta_producto.producto.id_producto }}</td>
-                    <td>{{ boleta_producto.producto.nombre_prod }}</td>
-                    <td>{{ boleta_producto.cantidad }}</td>
-                    <td>{{ boleta_producto.precio }}</td>
+                    <td>{{ producto.producto.id_producto }}</td>
+                    <td>{{ producto.producto.nombre_prod }}</td>
+                    <td>{{ producto.cantidad }}</td>
+                    <td>{{ producto.precio }}</td>
                 </tr>
             {% empty %}
                 <tr>
