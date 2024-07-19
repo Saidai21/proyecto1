@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+
 
 class SolicitudReparacion(models.Model):
     rut_cliente = models.CharField(max_length=12)
@@ -110,3 +112,21 @@ class Carrito(models.Model):
 
     class Meta:
         unique_together = ('cliente', 'producto')
+
+class Boleta(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(default=timezone.now)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    productos = models.ManyToManyField(Producto, through='BoletaProducto')
+
+    def __str__(self):
+        return f"Boleta {self.id} - Cliente {self.cliente.nombre} - {self.fecha.strftime('%d/%m/%Y %H:%M')}"
+
+class BoletaProducto(models.Model): 
+    boleta = models.ForeignKey(Boleta, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"Producto {self.producto.nombre_prod} - Boleta {self.boleta.id}"

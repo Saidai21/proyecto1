@@ -411,3 +411,34 @@ def ver_carrito(request):
     }
 
     return render(request, 'alumnos/ver_carrito.html', context)
+
+def confirmar_compra(request):
+    if 'cliente_id' not in request.session:
+        return redirect('iniciar_sesion')
+    
+    cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+    carrito_items = Carrito.objects.filter(cliente=cliente)
+    
+    if not carrito_items:
+        messages.error(request, 'El carrito está vacío.')
+        return redirect('ver_carrito')
+
+    # Crear boleta
+    total = sum(item.producto.precio * item.cantidad for item in carrito_items)
+    boleta = Boleta(cliente=cliente, total=total)
+    boleta.save()
+
+    # Asociar productos con la boleta
+    for item in carrito_items:
+        BoletaProducto.objects.create(
+            boleta=boleta,
+            producto=item.producto,
+            cantidad=item.cantidad,
+            precio=item.producto.precio
+        )
+
+    # Limpiar carrito
+    carrito_items.delete()
+
+    messages.success(request, 'Compra realizada exitosamente.')
+    return redirect('index')
