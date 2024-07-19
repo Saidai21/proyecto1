@@ -415,30 +415,38 @@ def ver_carrito(request):
 def confirmar_compra(request):
     if 'cliente_id' not in request.session:
         return redirect('iniciar_sesion')
-    
-    cliente = Cliente.objects.get(id_cliente=request.session['cliente_id'])
+
+    cliente_id = request.session['cliente_id']
+    cliente = Cliente.objects.get(id_cliente=cliente_id)
+
+    if not cliente:
+        messages.error(request, 'Cliente no encontrado.')
+        return redirect('iniciar_sesion')
+
     carrito_items = Carrito.objects.filter(cliente=cliente)
-    
+
     if not carrito_items:
         messages.error(request, 'El carrito está vacío.')
         return redirect('ver_carrito')
 
-    # Crear boleta
     total = sum(item.producto.precio * item.cantidad for item in carrito_items)
-    boleta = Boleta(cliente=cliente, total=total)
-    boleta.save()
 
-    # Asociar productos con la boleta
-    for item in carrito_items:
-        BoletaProducto.objects.create(
-            boleta=boleta,
-            producto=item.producto,
-            cantidad=item.cantidad,
-            precio=item.producto.precio
-        )
+    try:
+        boleta = Boleta(cliente=cliente, total=total)
+        boleta.save()
 
-    # Limpiar carrito
-    carrito_items.delete()
+        for item in carrito_items:
+            BoletaProducto.objects.create(
+                boleta=boleta,
+                producto=item.producto,
+                cantidad=item.cantidad,
+                precio=item.producto.precio
+            )
 
-    messages.success(request, 'Compra realizada exitosamente.')
+        carrito_items.delete()
+
+        messages.success(request, 'Compra realizada exitosamente.')
+    except Exception as e:
+        messages.error(request, f'Error al confirmar la compra: {str(e)}')
+
     return redirect('index')

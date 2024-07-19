@@ -71,93 +71,110 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-$(document).ready(function() {
-    // Función para pagar
-    $('.pagar-btn').on('click', function(e) {
-        e.preventDefault();
-        
-        Swal.fire({
-            title: "¿Estás seguro de realizar esta compra?",
-            text: "Esta acción no se puede deshacer.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, confirmar compra',
-            cancelButtonText: "Cancelar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Iterar sobre cada producto en el carrito y eliminarlo
-                $('.eliminar-btn').each(function() {
-                    var itemId = $(this).data('id');
-                    eliminarProducto(itemId);
-                });
-                // Redirigir a la página de inicio
-                window.location.href = "/";
-            }
-        });
-    });
-
-    // Función para eliminar un producto del carrito con confirmación de SweetAlert
-    function eliminarProducto(itemId) {
-        $.ajax({
-            url: '{% url "eliminar_del_carrito" 0 %}'.replace('0', itemId),
-            type: 'POST',
-            data: {
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(response) {
-                if (response.success) {
-                    $('#item-' + itemId).remove();
-                    actualizarTotal();
-                } else {
-                    Swal.fire('Error', 'Error al eliminar el producto: ' + response.error, 'error');
+    $(document).ready(function() {
+        $('.pagar-btn').on('click', function(e) {
+            e.preventDefault();
+            
+            Swal.fire({
+                title: "¿Estás seguro de realizar esta compra?",
+                text: "Esta acción no se puede deshacer.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, confirmar compra',
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Guardar datos en la boleta
+                    $.ajax({
+                        url: '{% url "confirmar_compra" %}', // Cambia esto a la URL correcta para confirmar la compra
+                        type: 'POST',
+                        data: {
+                            csrfmiddlewaretoken: '{{ csrf_token }}',
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                // Si el guardado fue exitoso, eliminar los productos
+                                $('.eliminar-btn').each(function() {
+                                    var itemId = $(this).data('id');
+                                    eliminarProducto(itemId);
+                                });
+                            } else {
+                                Swal.fire('Compra Confirmada', 'La compra ha sido confirmada exitosamente.', 'success')
+                                .then(function() {
+                                    // Redirigir a la página principal
+                                    window.location.href = '{% url "index" %}'; // Cambia esto a la URL de la página principal
+                                });;
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire('Error', 'Error al enviar la solicitud: ' + error, 'error');
+                        }
+                    });
                 }
-            }
+            });
         });
-    }
-
-    // Función para actualizar el total
-    function actualizarTotal() {
-        var totalPrecio = 0;
-        var totalCantidad = 0;
-
-        $('.precio').each(function() {
-            var precio = $(this).text().replace('$', '');
-            totalPrecio += parseFloat(precio);
+    
+        function eliminarProducto(itemId) {
+            $.ajax({
+                url: '{% url "eliminar_del_carrito" 0 %}'.replace('0', itemId),
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#item-' + itemId).remove();
+                        actualizarTotal();
+                    } else {
+                        Swal.fire('Error', 'Error al eliminar el producto: ' + response.error, 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire('Error', 'Error al enviar la solicitud: ' + error, 'error');
+                }
+            });
+        }
+    
+        function actualizarTotal() {
+            var totalPrecio = 0;
+            var totalCantidad = 0;
+    
+            $('.precio').each(function() {
+                var precio = $(this).text().replace('$', '');
+                totalPrecio += parseFloat(precio);
+            });
+    
+            $('.cantidad').each(function() {
+                var cantidad = $(this).text();
+                totalCantidad += parseInt(cantidad);
+            });
+    
+            $('#total-precios').html('<strong>$' + totalPrecio.toFixed(2) + '</strong>');
+            $('#total-cantidad').html('<strong>' + totalCantidad + '</strong>');
+        }
+    
+        $('.eliminar-btn').on('click', function() {
+            var itemId = $(this).data('id');
+    
+            Swal.fire({
+                title: "¿Seguro que quieres eliminar este producto?",
+                text: "Esta acción no se podrá deshacer.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    eliminarProducto(itemId);
+                }
+            });
         });
-
-        $('.cantidad').each(function() {
-            var cantidad = $(this).text();
-            totalCantidad += parseInt(cantidad);
-        });
-
-        $('#total-precios').html('<strong>$' + totalPrecio.toFixed(2) + '</strong>');
-        $('#total-cantidad').html('<strong>' + totalCantidad + '</strong>');
-    }
-
-    // Evento de clic para eliminar un producto individualmente con SweetAlert
-    $('.eliminar-btn').on('click', function() {
-        var itemId = $(this).data('id');
-
-        Swal.fire({
-            title: "¿Seguro que quieres hacer esto?",
-            text: "Esta acción ya no se podrá deshacer, así que piénsalo bien.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, estoy seguro',
-            cancelButtonText: "Cancelar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                eliminarProducto(itemId);
-            }
-        });
+    
+        actualizarTotal();
     });
-
-    // Actualizar total al cargar la página
-    actualizarTotal();
-});
-</script>
+    </script>
 {% endblock %}
